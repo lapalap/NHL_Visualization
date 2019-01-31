@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+#map {
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+    .background {
+      fill: none;
+      pointer-events: all;
+    }
+    #countries, #states {
+      fill: #cde;
+      stroke: #fff;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    #countries .active, #states .active {
+      fill: #89a;
+    }
+    #cities {
+      stroke-width: 0;
+    }
+    .city {
+      fill: #345;
+      stroke: #fff;
+    }
+    pre.prettyprint {
+      border: 1px solid #ccc;
+      margin-bottom: 0;
+      padding: 9.5px;
+    }
+    div.tooltip {
+    display: table-cell;  
+    position: absolute;     
+    text-align: center; 
+    vertical-align: middle;   
+    width: 140px;         
+    height: 14px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background:lightsteelblue;  
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;
+    }
+
+    div.comparison_table{
+      position: absolute;     
+      text-align: center; 
+      vertical-align: middle;
+      pointer-events: none;
+    }
+    div.container {
+        height: 17px;
+        text-align: center;
+        margin: auto;
+      }
+    .negative {
+        float: right;
+        margin-right: 0;
+        margin-left: auto;
+        height: 17px;
+      }
+    .positive {
+        height: 17px;
+      }
+
+    .node {
+      cursor: pointer;
+    }
+
+    .node circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+
+    .node text {
+      font: 12px sans-serif;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 2px;
+    }
+</style>
+<body class="w3-content" style="max-width:1200px">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+  <div class="w3-container w3-display-container w3-padding-16">
+    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+    <h3 class="w3-wide"><b>NHL visualization</b></h3>
+  </div>
+  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+    <a href="#" class="w3-bar-item w3-button">Teams summary</a>
+    <a href="#" class="w3-bar-item w3-button">Player stats</a>
+   <!--  <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
+      Jeans <i class="fa fa-caret-down"></i>
+    </a>
+    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
+      <a href="#" class="w3-bar-item w3-button">Relaxed</a>
+      <a href="#" class="w3-bar-item w3-button">Bootcut</a>
+      <a href="#" class="w3-bar-item w3-button">Straight</a>
+    </div>
+    <a href="#" class="w3-bar-item w3-button">Jackets</a>
+    <a href="#" class="w3-bar-item w3-button">Gymwear</a>
+    <a href="#" class="w3-bar-item w3-button">Blazers</a>
+    <a href="#" class="w3-bar-item w3-button">Shoes</a>
+  </div>
+  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a> 
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a> 
+  <a href="#footer"  class="w3-bar-item w3-button w3-padding">Subscribe</a> -->
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide">NHL visualization</div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  
+  <!-- Top header -->
+<!--   <header class="w3-container w3-xlarge">
+    <p class="w3-left">NHL Visualization</p>
+    <p class="w3-right">
+      <i class="fa fa-shopping-cart w3-margin-right"></i>
+      <i class="fa fa-search"></i>
+    </p>
+  </header> -->
+
+  <!-- Image header -->
+  <div class="w3-display-container w3-container">
+    <img src="/Images/image2.jpeg" alt="Jeans" style="width:100%">
+    <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+      <h1 class="w3-jumbo w3-hide-small" style="color: black;" style="font-size:160%;">NHL Visualization</h1>
+      <h1 class="w3-large w3-hide-medium" style="color: black;">Seasons 12/13 - 17/18</h1>
+<!--       <h1 class="w3-hide-small">COLLECTION 2016</h1> -->
+      <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">DIVE IN</a></p>
+    </div>
+  </div>
+
+<!--   <div class="w3-container w3-text-grey" id="jeans">
+    <p>8 items</p>
+  </div> -->
+
+  <!-- Product grid -->
+  <!-- <div class="w3-row w3-grayscale">
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans1.jpg" style="width:100%">
+        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans2.jpg" style="width:100%">
+        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+      </div>
+    </div>
+
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <div class="w3-display-container">
+          <img src="/w3images/jeans2.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">New</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+          </div>
+        </div>
+        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      </div>
+    </div>
+
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      </div>
+      <div class="w3-container">
+        <div class="w3-display-container">
+          <img src="/w3images/jeans4.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">Sale</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+          </div>
+        </div>
+        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
+      </div>
+    </div>
+
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans4.jpg" style="width:100%">
+        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans1.jpg" style="width:100%">
+        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Subscribe section -->
+ <!--  <div class="w3-container w3-black w3-padding-32">
+    <h1>Subscribe</h1>
+    <p>To get special offers and VIP treatment:</p>
+    <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
+    <button type="button" class="w3-button w3-red w3-margin-bottom">Subscribe</button>
+  </div> -->
+  
+  <!-- Footer -->
+  <!-- <footer class="w3-padding-64 w3-light-grey w3-small w3-center" id="footer">
+    <div class="w3-row-padding">
+      <div class="w3-col s4">
+        <h4>Contact</h4>
+        <p>Questions? Go ahead.</p>
+        <form action="/action_page.php" target="_blank">
+          <p><input class="w3-input w3-border" type="text" placeholder="Name" name="Name" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Email" name="Email" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Subject" name="Subject" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Message" name="Message" required></p>
+          <button type="submit" class="w3-button w3-block w3-black">Send</button>
+        </form>
+      </div>
+
+      <div class="w3-col s4">
+        <h4>About</h4>
+        <p><a href="#">About us</a></p>
+        <p><a href="#">We're hiring</a></p>
+        <p><a href="#">Support</a></p>
+        <p><a href="#">Find store</a></p>
+        <p><a href="#">Shipment</a></p>
+        <p><a href="#">Payment</a></p>
+        <p><a href="#">Gift card</a></p>
+        <p><a href="#">Return</a></p>
+        <p><a href="#">Help</a></p>
+      </div>
+
+      <div class="w3-col s4 w3-justify">
+        <h4>Store</h4>
+        <p><i class="fa fa-fw fa-map-marker"></i> Company Name</p>
+        <p><i class="fa fa-fw fa-phone"></i> 0044123123</p>
+        <p><i class="fa fa-fw fa-envelope"></i> ex@mail.com</p>
+        <h4>We accept</h4>
+        <p><i class="fa fa-fw fa-cc-amex"></i> Amex</p>
+        <p><i class="fa fa-fw fa-credit-card"></i> Credit Card</p>
+        <br>
+        <i class="fa fa-facebook-official w3-hover-opacity w3-large"></i>
+        <i class="fa fa-instagram w3-hover-opacity w3-large"></i>
+        <i class="fa fa-snapchat w3-hover-opacity w3-large"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity w3-large"></i>
+        <i class="fa fa-twitter w3-hover-opacity w3-large"></i>
+        <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
+      </div>
+    </div>
+  </footer>
+
+  <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+ -->
+  <!-- End page content -->
+</div>
+
+<!-- Newsletter Modal -->
+<!-- <div id="newsletter" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom" style="padding:32px">
+    <div class="w3-container w3-white w3-center">
+      <i onclick="document.getElementById('newsletter').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-xxlarge"></i>
+      <h2 class="w3-wide">NEWSLETTER</h2>
+      <p>Join our mailing list to receive updates on new arrivals and special offers.</p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail"></p>
+      <button type="button" class="w3-button w3-padding-large w3-red w3-margin-bottom" onclick="document.getElementById('newsletter').style.display='none'">Subscribe</button>
+    </div>
+  </div>
+</div> -->
+
+<script>
+// Accordion 
+function myAccFunc() {
+  var x = document.getElementById("demoAcc");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Click on the "Jeans" link on page load to open the accordion for demo purposes
+document.getElementById("myBtn").click();
+
+
+// Open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+</script>
+<div id="map"></div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script>
+    var margin = {top: 20, right: 20, bottom: 30, left: 30},
+            width = 1200 - margin.left - margin.right,
+            height = 800 - margin.top - margin.bottom;
+
+    var m_width = $("#map").width(),
+        width = 1876,
+        height = 1000,
+        country,
+        state;
+
+    var projection = d3.geo.mercator()
+        .scale(100)
+        .translate([width / 2, height / 1.5]);
+
+    var path = d3.geo.path()
+        .projection(projection);
+
+    var svg = d3.select("#map").append("svg")
+        .attr("preserveAspectRatio", "xMidYMid")
+        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("width", m_width)
+        .attr("height", m_width * height / width);
+    
+    var season = "s20172018";
+
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
+
+    var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+    var comparison_table = d3.select("body").append("div")  
+    .attr("class", "comparison_table")        
+    .style("opacity", 0);
+
+    svg.append("rect")
+        .attr("class", "background")
+        .attr("width", width)
+        .attr("height", height)
+
+    var g = svg.append("g");
+    queue()
+    .defer(d3.json, "USA_Canada_NHL.json")
+    .defer(d3.csv, "teams_with_image.csv")
+    .defer(d3.csv, "headTohead_new.csv")
+    .defer(d3.csv, "games_stats_complete.csv")
+    .defer(d3.csv, "team_squads2.csv")
+    .await(ready);
+
+function ready(error, us, teams, headTohead, headTohead_stats, players) {
+      // create a first guess for the projection
+      var json = topojson.feature(us, us.objects.USA_Canada_NHL);
+      var center = d3.geo.centroid(json);
+      var scale  = 150;
+      var offset = [width/2, height/2];
+      projection = d3.geo.mercator().scale(scale).center(center)
+          .translate(offset);
+
+      // using the path determine the bounds of the current map and use 
+      // these to determine better values for the scale and translation
+      var bounds  = path.bounds(json);
+      var hscale  = scale*width  / (bounds[1][0] - bounds[0][0]);
+      var vscale  = scale*height / (bounds[1][1] - bounds[0][1]);
+      var scale   = (hscale < vscale) ? hscale : vscale;
+      var offset  = [width - (bounds[0][0] + bounds[1][0])/2,
+                        height - (bounds[0][1] + bounds[1][1])/2];
+
+      // new projection
+      projection = d3.geo.mercator().center(center)
+        .scale(scale*0.65).translate(offset);
+      path = path.projection(projection);
+      // add a rectangle to see the bound of the svg
+      svg.append("rect").attr('width', width).attr('height', height)
+        .style('stroke', 'black').style('fill', 'none');
+
+      // adding the map itself
+      g.append("g")
+        .attr("id", "countries")
+        .selectAll("path")
+        .data(json.features)
+        .enter()
+        .append("path")
+        /*.attr("id", function(d) { return d.id; })*/
+        .attr("d", path)
+  // variable if the logo was clicked
+  var main_team_chosen = 0;
+  var compared_team_chosen = teams[0];
+
+  g.append("g").selectAll(".teams_loc")
+  .data(teams)
+  .enter().append("svg:image")
+  .attr("xlink:href", function(d) {
+  return (d.image+".png")
+  })
+  .attr("id", function(d) {
+    compared_team_chosen = this;
+    return ("team"+d.id);
+  })
+  .attr("width", 40)
+  .attr("height", 60)
+  .attr("r",4)
+  .attr("team_clicked", false)
+  .attr("team_clicked_for_comparison", false)
+  .attr("x", function(d) {
+  var coords = projection([d.lng, d.lat])
+  if (d.team == "Los Angeles Kings") {coords[0] = coords[0]-16;}
+  if (d.team == "Anaheim Ducks") {coords[0] = coords[0] +15;}
+  if (d.team == "Buffalo Sabres") {coords[0] = coords[0] +5;}
+  if (d.team == "Toronto Maple Leafs") {coords[0] = coords[0] -10;}
+  if (d.team == "Washington Capitals") {coords[0] = coords[0] -5;}
+  if (d.team == "New York Islanders") {coords[0] = coords[0] +30;}
+  if (d.team == "New York Rangers") {coords[0] = coords[0] +5;}
+  if (d.team == "New Jersey Devils") {coords[0] = coords[0] -20;}
+  if (d.team == "Philadelphia Flyers") {coords[1] = coords[1] -8;}
+  return coords[0]-25
+  })
+  .attr("y", function(d) {
+  var coords = projection([d.lng, d.lat])
+  if (d.team == "Buffalo Sabres") {coords[1] = coords[1] +10;}
+  if (d.team == "Toronto Maple Leafs") {coords[1] = coords[1] -5;}
+  if (d.team == "Washington Capitals") {coords[1] = coords[1] +10;}
+  if (d.team == "Philadelphia Flyers") {coords[1] = coords[1] +13;}
+  if (d.team == "New York Rangers") {coords[1] = coords[1] -5;}
+  if (d.team == "Anaheim Ducks") {coords[1] = coords[1] +10;}
+  return coords[1]-37.5
+  })
+  .on("mouseover", function(d) { 
+    div.transition()    
+    .duration(200)    
+    .style("opacity", .9);    
+    div.html(d.team)  
+    .style("left", (d3.event.pageX) + "px")   
+    .style("top", (d3.event.pageY - 7) + "px");})
+  .on("mouseout", function(d) { 
+    div.transition()    
+    .duration(500)    
+    .style("opacity", 0); })
+  .on("click", function(d) {
+    var w_team = this.getAttribute("width");
+    var h_team = this.getAttribute("height");
+    var x_team = parseFloat(this.getAttribute("x"));
+    var y_team = parseFloat(this.getAttribute("y"));
+    var w_compared_team = compared_team_chosen.getAttribute("width");
+    var h_compared_team = compared_team_chosen.getAttribute("height");
+    var x_compared_team = parseFloat(compared_team_chosen.getAttribute("x"));
+    var y_compared_team = parseFloat(compared_team_chosen.getAttribute("y"));
+    if ((main_team_chosen) && (main_team_chosen != d.id))
+      if (compared_team_chosen.getAttribute("team_clicked_for_comparison") == 'false'){
+        d3.select(this)
+        .transition()
+        .duration(500)
+        .attr("x", x_team-0.125*w_team)
+        .attr("y", y_team-0.125*h_team)
+        .attr("width", w_team*1.25)
+        .attr("height", h_team*1.25)
+        .attr("team_clicked_for_comparison", true)
+        compared_team_chosen = this;
+        show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
+      }
+      else {
+        if (compared_team_chosen == this){
+        d3.select(this)
+        .transition()
+        .duration(500)
+        .attr("x", x_team+0.1*w_team)
+        .attr("y", y_team+0.1*h_team)
+        .attr("width", w_team/1.25)
+        .attr("height", h_team/1.25)
+        .attr("team_clicked_for_comparison", false)
+        compared_team_chosen = this;
+        hide_comparison();
+        }
+        else {
+        d3.select(compared_team_chosen)
+        .transition()
+        .duration(500)
+        .attr("x", x_compared_team+0.1*w_compared_team)
+        .attr("y", y_compared_team+0.1*h_compared_team)
+        .attr("width", w_compared_team/1.25)
+        .attr("height", h_compared_team/1.25)
+        .attr("team_clicked_for_comparison", false);
+        d3.select(this)
+        .transition()
+        .duration(500)
+        .attr("x", x_team-0.125*w_team)
+        .attr("y", y_team-0.125*h_team)
+        .attr("width", w_team*1.25)
+        .attr("height", h_team*1.25)
+        .attr("team_clicked_for_comparison", true)
+        compared_team_chosen = this;
+        show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
+        }
+      }
+    else {
+    hide_comparison();
+    d.team_clicked = !d.team_clicked;
+    if (!main_team_chosen)
+      main_team_chosen = d.id;
+    else if ((main_team_chosen) && (main_team_chosen == d.id)){
+      main_team_chosen = 0;
+      if (compared_team_chosen.getAttribute("team_clicked_for_comparison") == 'true'){
+        d3.select(compared_team_chosen)
+        .transition()
+        .duration(500)
+        .attr("x", x_compared_team+0.1*w_compared_team)
+        .attr("y", y_compared_team+0.1*h_compared_team)
+        .attr("width", w_compared_team/1.25)
+        .attr("height", h_compared_team/1.25)
+        .attr("team_clicked_for_comparison", false);
+      }
+    }
+    if (d.team_clicked) {
+      d3.select(this)
+      .transition()
+      .duration(500)
+      .attr("x", x_team-0.25*w_team)
+      .attr("y", y_team-0.25*h_team)
+      .attr("width", w_team*1.5)
+      .attr("height", h_team*1.5)
+      draw_tree(main_team_chosen, d, players, teams);
+    }
+    else {
+      d3.select(this)
+      .transition()
+      .duration(500)
+      .attr("x", x_team+w_team/6)
+      .attr("y", y_team+h_team/6)
+      .attr("width", w_team/1.5)
+      .attr("height", h_team/1.5)
+      hide_tree();
+    }
+    draw_lines(d, headTohead, teams)
+    }
+  })
+}
+
+function draw_lines(team_chosen, headTohead, teams) {
+var headTohead_needed = headTohead.filter( function (el){
+    return ((el.playing_team_1 == team_chosen.id) || (el.playing_team_2 == team_chosen.id)); });
+if (team_chosen.team_clicked) {
+g.append("g").selectAll(".teams_headTohead")
+.data(headTohead_needed)
+.enter().append("path")
+.attr("id", "head_to_head_paths"+team_chosen.id)
+.attr("pointer-events", "none")
+.attr("d", function(d) {
+  function compare_id1(team){
+    return (team.id == d.playing_team_1);
+  }
+  function compare_id2(team){
+    return (team.id == d.playing_team_2);
+  }
+  var coords_x = parseFloat(g.selectAll("#team"+team_chosen.id).attr("x"))+parseFloat(g.selectAll("#team"+team_chosen.id).attr("width"))/2;
+  var coords_y = parseFloat(g.selectAll("#team"+team_chosen.id).attr("y"))+parseFloat(g.selectAll("#team"+team_chosen.id).attr("height"))/2;
+  if (team_chosen.id == d.playing_team_1) {
+    var coords_to_x = parseFloat(g.selectAll("#team"+d.playing_team_2).attr("x"))+parseFloat(g.selectAll("#team"+d.playing_team_2).attr("width"))/2;
+    var coords_to_y = parseFloat(g.selectAll("#team"+d.playing_team_2).attr("y"))+parseFloat(g.selectAll("#team"+d.playing_team_2).attr("height"))/2;
+    }
+  else {
+    var coords_to_x = parseFloat(g.selectAll("#team"+d.playing_team_1).attr("x"))+parseFloat(g.selectAll("#team"+d.playing_team_1).attr("width"))/2;
+    var coords_to_y = parseFloat(g.selectAll("#team"+d.playing_team_1).attr("y"))+parseFloat(g.selectAll("#team"+d.playing_team_1).attr("height"))/2;
+    }
+  var dx = coords_to_x - coords_x, dy = coords_to_y - coords_y,
+  dr = 4*Math.sqrt(dx * dx + dy * dy);
+  return "M" + coords_x + "," + coords_y + "A" + dr + "," + dr + " 0 0,1 " + coords_to_x + "," + coords_to_y;
+  })
+.style("fill", function(d) {
+  if (((team_chosen.id == d.playing_team_1) && (d.team_1_wins > d.count/2)) || ((team_chosen.id == d.playing_team_2) && (d.team_1_wins < d.count/2))){
+    return ("green")
+  }
+  else if (d.team_1_wins==d.count/2) {
+    return ("yellow")
+  }
+  else {
+    return ("red")
+  }
+  })
+.style("stroke",function(d) {
+  return (this.style.fill)
+  })
+.style("stroke-width", "10")
+.style("stroke-opacity", "0")
+.style("opacity","0")
+.transition()
+.duration(500)
+.style("opacity",".5")
+.style("stroke-opacity", "1")
+.style("display", "block")
+;}
+else {
+g.selectAll("#head_to_head_paths"+team_chosen.id)
+.transition()
+.duration(500)
+.style("opacity", "0")
+.remove()
+;
+}
+/* d3.selectAll(".pathlabel.to" + d.nodes[0].Number)
+.style("fill", "orange")
+.style("stroke", "white")
+.style("display", "block"); */
+}
+
+function hide_comparison(){
+  comparison_table.style("opacity","0");
+  comparison_table.selectAll("tr").remove();
+}
+
+function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams){
+    comparison_table.selectAll("tr").remove();
+    var thead = comparison_table.append('thead')
+    var tbody = comparison_table.append('tbody');
+    var main_team = teams.filter((x) => {return x.id == main_team_chosen});
+    var column_names = ["",main_team[0].team, d.team];
+    var column_names_in_array = ["id","team_1", "team_2"];
+    var bar_charts = {team_1:"negative", team_2:"positive"};
+    var main_row =headTohead_stats.filter((x) => {return ((x.playing_team_1 == main_team_chosen) && (x.playing_team_2 == d.id)) ||
+      ((x.playing_team_1 ==d.id) && (x.playing_team_2 == main_team_chosen))})
+    console.log(main_row);
+    //Object.keys(teams[1])
+    // append the header row
+    thead.append('tr')
+      .selectAll('th')
+      .data(column_names).enter()
+      .append('th')
+        .text(function (column) { 
+          return column; 
+          });
+    var stats = [{id: "Wins", team_1: main_row[0].won_1, team_2: main_row[0].won_2},
+                {id:"Wins REG", team_1: main_row[0].REG_1_team, team_2: main_row[0].REG_2_team},
+                {id:"Wins OT", team_1: main_row[0].OT_1_team, team_2: main_row[0].OT_2_team},
+                {id:"Wins SO", team_1: main_row[0].SO_1_team, team_2: main_row[0].SO_2_team},
+                {id:"Goals", team_1: main_row[0].goals1, team_2: main_row[0].goals2},
+                {id:"Shots", team_1: main_row[0].shots1, team_2: main_row[0].shots2},
+                {id:"Powerplay realization", team_1: (main_row[0].powerPlayGoals1/main_row[0].powerPlayOpportunities1*100).toFixed(2)+"%", 
+                                             team_2: (main_row[0].powerPlayGoals2/main_row[0].powerPlayOpportunities2*100).toFixed(2) + "%"},
+                {id:"Penalty minutes", team_1: main_row[0].pim1, team_2: main_row[0].pim2},
+                {id:"Hits", team_1: main_row[0].hits1, team_2: main_row[0].hits2},
+                {id:"Giveaways", team_1: main_row[0].giveaways1, team_2: main_row[0].giveaways2},
+                {id:"Takeaways", team_1: main_row[0].takeaways1, team_2: main_row[0].takeaways2},
+                {id:"Face-off winning %", team_1: (main_row[0].faceOffWinPercentage1*1).toFixed(2)+"%", team_2: (main_row[0].faceOffWinPercentage2*1).toFixed(2)+"%"}
+                ]
+    if (main_row[0].playing_team_2 == main_team_chosen){
+      var i;
+      for(i = 0; i < stats.length; i++){
+        var temp = stats[i].team_1;
+        stats[i].team_1 = stats[i].team_2;
+        stats[i].team_2 = temp;
+    }
+    }
+    // create a row for each object in the data
+    var rows = tbody.selectAll('tr')
+      .data(stats)
+      .enter()
+      .append('tr');
+    
+    // Setup the scale for the values for display, use abs max as max value
+    var x = d3.scale.linear()
+          .domain([0, 1])
+          .range(["0%", "100%"]);
+
+    var cells = rows.selectAll('td')
+    .data(function (row) {
+      return column_names_in_array.map(function (column) {
+          return {column: column, value: row[column]};
+        });
+    })
+    .enter()
+    .append('td').attr("width", "140px")
+    .append('div').attr("class", "container")
+    .text(function (d) { return d.value; })
+    .attr("class", function(d) {
+      if (d.column == 'team_1') return ("negative")
+      else if (d.column == 'team_2') return ("positive")
+      else return ("")
+    })
+    // create a cell in each row for each column
+    /*var cells = rows.selectAll('td')
+      .data(function (row) {
+        return column_names_in_array.map(function (column) {
+          return {column: column, value: row[column]};
+        });
+      })
+      .enter()
+      .append('td')
+      .text(function (d) { return d.value; }); */
+
+    
+    // Create a column at the beginning of the table for the chart
+    //var chart = rows.append("td").attr("class", "chart").attr("width", 100);
+      
+      // Create the div structure of the chart
+      //cells.append("div").attr("class", "negative");
+      //cells.append("div").attr("class", "positive");
+
+      // Creates the negative div bar
+      rows.select("div.negative")
+        .style("width", "0%")
+        .style("background-color", function(row){
+          if (parseFloat(row['team_1']) > parseFloat(row['team_2'])) {
+            if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
+              return ("red")
+            else return ("green")
+          }
+          else if (parseFloat(row['team_1']) < parseFloat(row['team_2'])) {
+            if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
+              return ("green")
+            else return ("red")
+          }
+          else return ("yellow");
+        })
+        .transition()
+        .duration(500)
+        .style("width", function(row) {
+          return x(parseFloat(row['team_1'])/(parseFloat(row['team_1'])+parseFloat(row['team_2'])))})
+
+      // Creates the positive div bar
+      rows.select("div.positive")
+        .style("width", "0%")
+        .style("background-color", function(row){
+          if (parseFloat(row['team_2']) > parseFloat(row['team_1'])) {
+            if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
+              return ("red")
+            else return ("green")
+          }
+          else if (parseFloat(row['team_2']) < parseFloat(row['team_1'])) {
+            if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
+              return ("green")
+            else return ("red")
+          }
+          else return ("yellow");
+        })
+        .transition()
+        .duration(500)
+        .style("width", function(row) { return x(parseFloat(row['team_2'])/(parseFloat(row['team_1'])+parseFloat(row['team_2'])))})
+
+    comparison_table.style("opacity","1")
+    .style("left", "20px")    
+    .style("top", "250px");
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+function draw_tree(main_team_chosen, d, players, teams){
+  var tree = d3.layout.tree()
+      .size([500, 250]);
+  var duration = 750;
+  var players_of_team = players.filter((x) => {return x[season] == main_team_chosen});
+  var main_team = teams.filter((x) => {return x.id == main_team_chosen});
+  var all_positions = ["Goalkeepers", "Defencemen", "Left Wingers", "Right Wingers", "Centers"];
+  var all_positions_short = ["G", "D", "LW", "RW", "C"];
+  var pos_num;
+  var node;
+  var treeData = [
+  {
+    "name": main_team[0].team,
+    "parent": "null",
+    "children": []
+  }];
+  for (i = 0; i < all_positions.length; i += 1) {
+        node = {
+          "name": all_positions[i],
+          "parent": main_team[0].team,
+          "children":[]
+        };
+        treeData[0].children.push(node);
+  }
+  for (i = 0; i < players_of_team.length; i += 1) {
+    pos_num = all_positions_short.findIndex(function(pos) {return pos == players_of_team[i].primaryPosition});
+    node = {
+      "name": players_of_team[i].firstName + " "+players_of_team[i].lastName + " ("+players_of_team[i].nationality+")",
+      "parent": all_positions[pos_num],
+    };
+    treeData[0].children[pos_num].children.push(node);
+  }
+var root = treeData[0];
+root.x0 = 300;
+root.y0 = 300;
+
+update_tree(root);
+
+function update_tree(source){
+// Compute the new tree layout.
+var nodes = tree.nodes(root).reverse(),
+    links = tree.links(nodes);
+
+// Normalize for fixed-depth.
+nodes.forEach(function(d) { 
+  console.log(d);
+  d.y = d.depth * 180 + 140;
+});
+
+// Update the nodes…
+var node = svg.selectAll("g.node")
+  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+// Enter any new nodes at the parent's previous position.
+var nodeEnter = node.enter().append("g")
+  .attr("class", "node")
+  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+  .on("click", click_toggle_children);
+
+nodeEnter.append("circle")
+  .attr("r", 1e-6)
+  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+nodeEnter.append("text")
+  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
+  .attr("dy", ".35em")
+  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+  .text(function(d) { return d.name; })
+  .style("fill-opacity", 1e-6);
+
+// Transition nodes to their new position.
+var nodeUpdate = node.transition()
+ .duration(duration)
+ .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+nodeUpdate.select("circle")
+ .attr("r", 5)
+ .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+nodeUpdate.select("text")
+ .style("fill-opacity", 1);
+
+// Transition exiting nodes to the parent's new position.
+var nodeExit = node.exit().transition()
+ .duration(duration)
+ .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+ .remove();
+
+nodeExit.select("circle")
+ .attr("r", 1e-6);
+
+nodeExit.select("text")
+ .style("fill-opacity", 1e-6);
+
+// Update the links…
+var link = svg.selectAll("path.link")
+ .data(links, function(d) { return d.target.id; });
+
+ // Enter any new links at the parent's previous position.
+link.enter().insert("path", "g")
+ .attr("class", "link")
+ .attr("d", function(d) {
+  var o = {x: source.x0, y: source.y0};
+  return diagonal({source: o, target: o});
+ });
+
+// Transition links to their new position.
+link.transition()
+  .duration(duration)
+  .attr("d", diagonal);
+
+// Transition exiting nodes to the parent's new position.
+link.exit().transition()
+ .duration(duration)
+ .attr("d", function(d) {
+  var o = {x: source.x, y: source.y};
+  return diagonal({source: o, target: o});
+  })
+  .remove();
+
+// Stash the old positions for transition.
+nodes.forEach(function(d) {
+d.x0 = d.x;
+d.y0 = d.y;
+});
+}
+
+// Toggle children on click.
+function click_toggle_children(d) {
+  if (d.children) {
+  d._children = d.children;
+  d.children = null;
+  } else {
+  d.children = d._children;
+  d._children = null;
+  }
+  update_tree(d);
+}
+}
+
+function hide_tree(){
+  svg.selectAll("g.node")
+  .remove();
+  svg.selectAll("path.link")
+  .remove();
+}
+
+    $(window).resize(function() {
+      var w = $("#map").width();
+      svg.attr("width", w);
+      svg.attr("height", w * height / width);
+    });
+    </script>
+
+</body>
+</html>
+
