@@ -48,7 +48,7 @@ var RINK_MAP = function RinkMap(config){
     {
         chartsize: {width: 500, height: 500},
         margins:  {top: 30, bottom: 5, left: 10, right: 10},
-        showDanger: true,
+        showDanger: false,
         horizontal: true,
         fullRink: true,
         watermark: ""
