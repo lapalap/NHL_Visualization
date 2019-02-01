@@ -29,8 +29,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   float: left;
   width: 50%;
 }
-
-/* Clear floats after the columns */
+ Clear floats after the columns 
 .row:after {
   content: "";
   display: table;
@@ -81,15 +80,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
       <!-- Top header -->
       <header class="w3-container w3-xlarge">
-        <p class="w3-left">Players side-by-side comparison</p>
+        <p class="w3-left" style="font-size:160%;">Players side-by-side comparison</p>
       </header>
-
-
-
-      <div  class="w3-display-container w3-container">
+      <div  class="w3-display-container w3-container" id = "general">
         <div class="control-group" style="margin-top:30px">
-          <label for="select-state-disabled">Players:</label>
-          <select id="select-state-disabled" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a player...">
+          <label for="select-state">Players:</label>
+          <select id="select-state" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a player...">
             <option value="">Select a player...</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -143,10 +139,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
             <option value="WI">Wisconsin</option>
             <option value="WY" >Wyoming</option>
           </select>
-           <div class="value">Current Value: <span>["AZ","UT"]</span></div>
+          <div class="value">Current Value: <span>["AZ","UT"]</span></div>
         </div>
         <script>
-          $('#select-state-disabled').selectize({
+          $('#select-state').selectize({
             maxItems: 2
           });
         </script>
@@ -154,36 +150,28 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 
 
-
-        <div class="row" id="row">
-          <div class="column" id="column_left"><h1 class="w3-large w3-hide-medium" style="color: black;">Seasons 12/13 - 17/18</h1>
-
-
-
-
+          <div class="row" id="row">
+          <div class="column" id="column_left" style="text-align:center;"><h1 class="w3-large" style="color: black;">Ovechkin</h1>
             <script>
 
-              var svg = d3.select("column_left").append("svg").append("g")
-              .attr("width", 1000)
-              .attr("height", 1000);
-
-              var chart = function(){
-                var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: 1000, horizontal: false});
-
-                fullHorzPlot();
-
-                svg.attr("class", "chart");
-
-                return svg.node();
-
-              }
-              chart();
-            </script>
+                var width = document.getElementById('column_left').offsetWidth*0.7;
+                console.log(width);
+                var svg = d3.select("#column_left").append("svg")
+                        .attr("width", width)
+                        .attr("height", width*2.5);
+                var chart = function(){
+                  var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: width, horizontal: false});
+                  fullHorzPlot();
+                  svg.attr("w3-container", "chart");
+                  return svg.node();
+                }
+                chart();
+              </script>
           </div>
-          <div class="column" id="column_right"><h1 class="w3-large w3-hide-medium" style="color: black;">Seasons 12/13 - 17/18</h1></div>
+          <div class="column" id="column_right"><h1 class="w3-large" style="color: black;">Seasons 12/13 - 17/18</h1></div>
+          </div>
         </div>
-      </div>
-      <script>
+        <script>
 
 // Accordion 
 function myAccFunc() {
