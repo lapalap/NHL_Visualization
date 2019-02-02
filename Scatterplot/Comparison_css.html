@@ -29,149 +29,424 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   float: left;
   width: 50%;
 }
- Clear floats after the columns 
+.column_mini_left {
+  float: left;
+  width: 30%;
+}
+.column_mini_right {
+  float: right;
+  width: 70%;
+}
+/*Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
-</style>
-<head>
-  <title>Rink Plots</title>
-  <link rel="stylesheet" type="text/css" href="assets/css/rink-style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/rinkPlot_original.js"></script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/selectize.js"></script>
-  <script src="js/index.js"></script>
-  <link rel="stylesheet" href="css/normalize.css">
-  <!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
-</head>
-<body class="w3-content" style="max-width:1200px">
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <!--   <div class="chart" id="full-rink-horz"></div> -->
+.profile_photo_left {visibility: hidden;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000000;}
 
-  <!-- Sidebar/menu -->
-  <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
-    <div class="w3-container w3-display-container w3-padding-16">
-      <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-      <h3 class="w3-wide"><b>NHL visualization</b></h3>
-    </div>
-    <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-      <a href="#" class="w3-bar-item w3-button">Teams summary</a>
-      <a href="#" class="w3-bar-item w3-button">Player stats</a>
-    </nav>
+  .profile_photo_right {visibility: hidden;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000000;}
+    .chart {
+      margin: 10px;
+      padding-top: 10px;
+    }
 
-    <!-- Top menu on small screens -->
-    <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-      <div class="w3-bar-item w3-padding-24 w3-wide">NHL visualization</div>
-      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    </header>
+    .chart .right {
+      stroke: white;
+      fill: indianred;
+    }
 
-    <!-- Overlay effect when opening sidebar on small screens -->
-    <!-- <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div> -->
+    .chart .left {
+      stroke: white;
+      fill: steelblue;
+    }
 
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" id = "main" style="margin-left:250px">
+    .chart rect:hover {
+      fill: #64707d;
+    }
 
-      <!-- Push down content on small screens -->
-      <div class="w3-hide-large" style="margin-top:83px"></div>
+    .chart text {
+      fill: #24da82;
+    }
 
-      <!-- Top header -->
-      <header class="w3-container w3-xlarge">
-        <p class="w3-left" style="font-size:160%;">Players side-by-side comparison</p>
+    .chart text.name {
+      fill: black;
+    }
+
+    .chart text.title {
+      fill: #2216ff;
+    }
+
+
+  </style>
+  <head>
+    <title>Rink Plots</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/rink-style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/rinkPlot_original.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/selectize.js"></script>
+    <script src="js/radarChart.js"></script> 
+    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
+  </head>
+  <body class="w3-content" style="max-width:1500px">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <!--   <div class="chart" id="full-rink-horz"></div> -->
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+      <div class="w3-container w3-display-container w3-padding-16">
+        <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+        <h3 class="w3-wide"><b>NHL visualization</b></h3>
+      </div>
+      <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+        <a href="#" class="w3-bar-item w3-button">Teams summary</a>
+        <a href="#" class="w3-bar-item w3-button">Player stats</a>
+      </nav>
+
+      <!-- Top menu on small screens -->
+      <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+        <div class="w3-bar-item w3-padding-24 w3-wide">NHL visualization</div>
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
       </header>
-      <div  class="w3-display-container w3-container" id = "general">
-        <div class="control-group" style="margin-top:30px">
-          <label for="select-state">Players:</label>
-          <select id="select-state" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a player...">
-            <option value="">Select a player...</option>
-            <option value="AL">Alabama</option>
-            <option value="AK">Alaska</option>
-            <option value="AZ">Arizona</option>
-            <option value="AR">Arkansas</option>
-            <option value="CA" >California</option>
-            <option value="CO">Colorado</option>
-            <option value="CT">Connecticut</option>
-            <option value="DE">Delaware</option>
-            <option value="DC">District of Columbia</option>
-            <option value="FL">Florida</option>
-            <option value="GA">Georgia</option>
-            <option value="HI">Hawaii</option>
-            <option value="ID">Idaho</option>
-            <option value="IL">Illinois</option>
-            <option value="IN">Indiana</option>
-            <option value="IA">Iowa</option>
-            <option value="KS">Kansas</option>
-            <option value="KY">Kentucky</option>
-            <option value="LA">Louisiana</option>
-            <option value="ME">Maine</option>
-            <option value="MD">Maryland</option>
-            <option value="MA">Massachusetts</option>
-            <option value="MI">Michigan</option>
-            <option value="MN">Minnesota</option>
-            <option value="MS">Mississippi</option>
-            <option value="MO">Missouri</option>
-            <option value="MT">Montana</option>
-            <option value="NE">Nebraska</option>
-            <option value="NV">Nevada</option>
-            <option value="NH">New Hampshire</option>
-            <option value="NJ">New Jersey</option>
-            <option value="NM">New Mexico</option>
-            <option value="NY">New York</option>
-            <option value="NC">North Carolina</option>
-            <option value="ND">North Dakota</option>
-            <option value="OH">Ohio</option>
-            <option value="OK">Oklahoma</option>
-            <option value="OR">Oregon</option>
-            <option value="PA">Pennsylvania</option>
-            <option value="RI">Rhode Island</option>
-            <option value="SC">South Carolina</option>
-            <option value="SD">South Dakota</option>
-            <option value="TN">Tennessee</option>
-            <option value="TX">Texas</option>
-            <option value="UT">Utah</option>
-            <option value="VT">Vermont</option>
-            <option value="VA">Virginia</option>
-            <option value="WA">Washington</option>
-            <option value="WV">West Virginia</option>
-            <option value="WI">Wisconsin</option>
-            <option value="WY" >Wyoming</option>
-          </select>
-          <div class="value">Current Value: <span>["AZ","UT"]</span></div>
-        </div>
-        <script>
-          $('#select-state').selectize({
-            maxItems: 2
-          });
-        </script>
-        <div class="value">Current Value: <span>["AZ","UT"]</span></div>
 
+      <!-- Overlay effect when opening sidebar on small screens -->
+      <!-- <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div> -->
 
+      <!-- !PAGE CONTENT! -->
+      <div class="w3-main" id = "main" style="margin-left:250px">
+
+        <!-- Push down content on small screens -->
+        <div class="w3-hide-large" style="margin-top:83px"></div>
+
+        <!-- Top header -->
+        <header class="w3-container w3-xlarge">
+          <p class="w3-left" style="font-size:160%;">Players side-by-side comparison</p>
+        </header>
+        <div  class="w3-display-container w3-container" id = "general">
+          <div class="control-group" style="margin-top:0px">
+            <label for="select-season">Season:</label>
+            <select id="select-season" class="select-season-1" style="width:30%" placeholder="Select season...">
+              <option value="">Select season</option>
+              <option value="1">All seasons</option>
+              <option value="2">2012/2013</option>
+              <option value="3">2013/2014</option>
+              <option value="4">2014/2015</option>
+              <option value="5">2015/2016</option>
+              <option value="6">2016/2017</option>
+              <option value="7">2017/2018</option>
+            </select>
+          </div>
+          <div class="control-group" style="margin-top:30px">
+            <label for="select-player" style="text-align:center;">Players:</label>
+            <select id="select-player" name="player[]" multiple class="demo-default" style="width:50%" placeholder="Select a player..." style="text-align:center;">
+              <option value="">Select a player...</option>
+              <option value=8471214>Alex Ovechkin</option>
+              <option value=8471675>Sidney Crosby</option>
+              <option value=8474141>Patrick Kane</option>
+              <option value=8470794>Joe Pavelski</option>
+              <option value=8475765>Vladimir Tarasenko</option>
+              <option value=8475166>John Tavares</option>
+              <option value=8475794>Tyler Seguin</option>
+              <option value=8473994>Jamie Benn</option>
+              <option value=8471215>Evgeni Malkin</option>
+              <option value=8470621>Corey Perry</option>
+              <option value=8473419>Brad Marchand</option>
+              <option value=8473604>Jonathan Toews</option>
+              <option value=8474564>Steven Stamkos</option>
+              <option value=8473548>Phil Kessel</option>
+              <option value=8474053>Logan Couture</option>
+              <option value=8474157>Max Pacioretty</option>
+              <option value=8476453>Nikita Kucherov</option>
+              <option value=8471707>James Neal</option>
+              <option value=8470604>Jeff Carter</option>
+              <option value=8466139>Patrick Marleau</option>
+              <option value=8470638>Patrice Bergeron</option>
+              <option value=8470041>Rick Nash</option>
+              <option value=8471698>T.J. Oshie</option>
+              <option value=8474190>Wayne Simmonds</option>
+              <option value=8470610>Zach Parise</option>
+              <option value=8474037>James van Riemsdyk</option>
+              <option value=8471218>Blake Wheeler</option>
+              <option value=8471685>Anze Kopitar</option>
+              <option value=8475168>Matt Duchene</option>
+              <option value=8475784>Jeff Skinner</option>
+            </select>
+          </div>
 
           <div class="row" id="row">
-          <div class="column" id="column_left" style="text-align:center;"><h1 class="w3-large" style="color: black;">Ovechkin</h1>
-            <script>
+            <div class="column" id="column_left" style="text-align:center;">
+              <img id ="left_profile_photo" class="profile_photo_left" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
+              <p id="name_left_column" class="w3-large" style="color: black;"></p>
+            </div>
+            <div class="column" id="column_right" style="text-align:center;">
+              <img id ="right_profile_photo" class="profile_photo_right" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
+              <p id="name_right_column" class="w3-large" style="color: black;"></p>
+            </div>
+          </div>
 
-                var width = document.getElementById('column_left').offsetWidth*0.7;
-                console.log(width);
-                var svg = d3.select("#column_left").append("svg")
-                        .attr("width", width)
-                        .attr("height", width*2.5);
-                var chart = function(){
-                  var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: width, horizontal: false});
-                  fullHorzPlot();
-                  svg.attr("w3-container", "chart");
-                  return svg.node();
-                }
-                chart();
-              </script>
+          <div class="row" id="next_row">
+            <div class="column_mini_left" id="column2_left" style="text-align:center;">
+                <div class="radarChart"></div>
+            </div>
+            <div class="column_" id="column2_right" style="text-align:center;">
+            </div>
           </div>
-          <div class="column" id="column_right"><h1 class="w3-large" style="color: black;">Seasons 12/13 - 17/18</h1></div>
-          </div>
-        </div>
-        <script>
+
+
+          <script>
+            var selection = $('#select-season').selectize({
+              create: true,
+              dropdownParent: 'body'
+            });
+
+
+
+            var selection = $('#select-player').selectize({
+              maxItems: 2,
+              delimiter: ',',
+              onChange: function(value) {
+             // alert(value);
+
+             var dict = {8471214 : 'Alex Ovechkin',
+             8471675 : 'Sidney Crosby',
+             8474141 : 'Patrick Kane',
+             8470794 : 'Joe Pavelski',
+             8475765 : 'Vladimir Tarasenko',
+             8475166 : 'John Tavares',
+             8475794 : 'Tyler Seguin',
+             8473994 : 'Jamie Benn',
+             8471215 : 'Evgeni Malkin',
+             8470621 : 'Corey Perry',
+             8473419 : 'Brad Marchand',
+             8473604 : 'Jonathan Toews',
+             8474564 : 'Steven Stamkos',
+             8473548 : 'Phil Kessel',
+             8474053 : 'Logan Couture',
+             8474157 : 'Max Pacioretty',
+             8476453 : 'Nikita Kucherov',
+             8471707 : 'James Neal',
+             8470604 : 'Jeff Carter',
+             8466139 : 'Patrick Marleau',
+             8470638 : 'Patrice Bergeron',
+             8470041 : 'Rick Nash',
+             8471698 : 'T.J. Oshie',
+             8474190 : 'Wayne Simmonds',
+             8470610 : 'Zach Parise',
+             8474037 : 'James van Riemsdyk',
+             8471218 : 'Blake Wheeler',
+             8471685 : 'Anze Kopitar',
+             8475168 : 'Matt Duchene',
+             8475784 : 'Jeff Skinner'};
+
+             if (value[1] != null) {
+
+               document.getElementById('name_left_column').innerHTML = dict[value[0]];
+               document.getElementById('name_right_column').innerHTML = dict[value[1]];
+
+               var imgReplace_left = document.getElementById("left_profile_photo");
+               imgReplace_left.src = "../data/Players/Images/"+value[0]+".jpg";
+               imgReplace_left.style.visibility = "visible";
+               imgReplace_left.style.borderRadius = '50%';
+
+               var imgReplace_right = document.getElementById("right_profile_photo");
+               imgReplace_right.src = "../data/Players/Images/"+value[1]+".jpg";
+               imgReplace_right.style.visibility = "visible";
+               imgReplace_right.style.borderRadius = '50%';
+
+               var width = document.getElementById('column_left').offsetWidth*0.7;
+
+               var svg_left = d3.select("#column_left").append("svg")
+               .attr("width", width)
+               .attr("height", width*1.25);
+
+               var svg_right = d3.select("#column_right").append("svg")
+               .attr("width", width)
+               .attr("height", width*1.25);
+
+               var chart = function(svg){
+                var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: width, horizontal: false});
+                fullHorzPlot();
+                svg_left.attr("w3-container", "chart");
+                return svg.node();
+              }
+              chart(svg_left);
+              chart(svg_right);
+
+              // setup x 
+              var xValue = function(d) { return d.st_y;}, // data -> value
+                  xScale = d3.scale.linear().range([0, width]), // value -> display
+                  xMap = function(d) { return xScale(xValue(d));}, // data -> display
+                  xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+              // setup y
+              var yValue = function(d) { return d.st_x+100;}, // data -> value
+                  yScale = d3.scale.linear().range([width*1.25, 0]), // value -> display
+                  yMap = function(d) { return yScale(yValue(d));}, // data -> display
+                  yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+              // setup fill color
+              var cValue = function(d) { return d.rink_side;},
+              color = d3.scale.category10();
+
+              // add the tooltip area to the webpage
+              var tooltip = d3.select("body").append("div")
+              .attr("class", "tooltip")
+              .style("opacity", 0);
+
+
+              d3.csv("../data/Players/"+value[0]+".csv", function(error, data) {
+
+                yScale.domain([100, 0]);
+                xScale.domain([-42.5, 42.5]);
+
+                // draw dots
+                svg_left.select("g").selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr("r", 4)
+                .attr("cx", xMap)
+                .attr("cy", yMap)
+                .style("fill", "blue")
+                .style("opacity", .6)
+                .on("mouseover", function(d) {
+                  tooltip.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+                  tooltip.html("<br>" + d.description + "<br/>")
+                  .style("left", (d3.event.pageX + 5) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                  tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+                });
+              });
+
+            }
+
+            d3.csv("../data/Players/"+value[1]+".csv", function(error, data) {
+
+              yScale.domain([100, 0]);
+              xScale.domain([-42.5, 42.5]);
+
+                // draw dots
+                svg_right.select("g").selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr("r", 4)
+                .attr("cx", xMap)
+                .attr("cy", yMap)
+                .style("fill", "blue")
+                .style("opacity", .6)
+                .on("mouseover", function(d) {
+                  tooltip.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+                  tooltip.html("<br>" + d.description + "<br/>")
+                  .style("left", (d3.event.pageX + 5) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                  tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+                })
+                .on("mo");
+              });
+        // d3.csv("../data/Players/players.csv", function(error, data) {
+        //   var
+
+        // });
+
+      }
+    });
+  </script>
+
+    <script>
+      
+      /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+      
+      ////////////////////////////////////////////////////////////// 
+      //////////////////////// Set-Up ////////////////////////////// 
+      ////////////////////////////////////////////////////////////// 
+
+      var margin = {top: 100, right: 100, bottom: 100, left: 100},
+        width = Math.min(5000, window.innerWidth - 10) - margin.left - margin.right,
+        height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+          
+      ////////////////////////////////////////////////////////////// 
+      ////////////////////////// Data ////////////////////////////// 
+      ////////////////////////////////////////////////////////////// 
+
+      var data = [
+            [//iPhone
+            {axis:"Battery Life",value:0.22},
+            {axis:"Brand",value:0.28},
+            {axis:"Contract Cost",value:0.29},
+            {axis:"Design And Quality",value:0.17},
+            {axis:"Have Internet Connectivity",value:0.22},
+            {axis:"Large Screen",value:0.02},
+            {axis:"Price Of Device",value:0.21},
+            {axis:"To Be A Smartphone",value:0.50}      
+            ],[//Samsung
+            {axis:"Battery Life",value:0.27},
+            {axis:"Brand",value:0.16},
+            {axis:"Contract Cost",value:0.35},
+            {axis:"Design And Quality",value:0.13},
+            {axis:"Have Internet Connectivity",value:0.20},
+            {axis:"Large Screen",value:0.13},
+            {axis:"Price Of Device",value:0.35},
+            {axis:"To Be A Smartphone",value:0.38}
+            ],[//Nokia Smartphone
+            {axis:"Battery Life",value:0.26},
+            {axis:"Brand",value:0.10},
+            {axis:"Contract Cost",value:0.30},
+            {axis:"Design And Quality",value:0.14},
+            {axis:"Have Internet Connectivity",value:0.22},
+            {axis:"Large Screen",value:0.04},
+            {axis:"Price Of Device",value:0.41},
+            {axis:"To Be A Smartphone",value:0.30}
+            ]
+          ];
+      ////////////////////////////////////////////////////////////// 
+      //////////////////// Draw the Chart ////////////////////////// 
+      ////////////////////////////////////////////////////////////// 
+
+      var color = d3.scale.ordinal()
+        .range(["#EDC951","#CC333F","#00A0B0"]);
+        
+      var radarChartOptions = {
+        w: width,
+        h: height,
+        margin: margin,
+        maxValue: 0.5,
+        levels: 5,
+        roundStrokes: true,
+        color: color
+      };
+      //Call function to draw the Radar chart
+      RadarChart(".radarChart", data, radarChartOptions);
+    </script>
+
+
+  <script>
 
 // Accordion 
 function myAccFunc() {
