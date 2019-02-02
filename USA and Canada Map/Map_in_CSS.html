@@ -367,6 +367,8 @@ var margin = {top: 20, right: 0, bottom: 30, left: 10},
 
     var xAxisGraph = "shots";
     var yAxisGraph = "goals";
+    var text_for_xAxis = "Shots";
+    var text_for_yAxis = "Goals";
     queue()
     .defer(d3.json, "USA_Canada_NHL.json")
     .defer(d3.csv, "teams_with_image.csv")
@@ -450,43 +452,43 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
         var xAxis_dropdown = document.getElementById("select-xAxis");
         xAxisGraph = xAxis_dropdown.options[xAxis_dropdown.selectedIndex].value;
         switch(xAxisGraph) {
-        case "1": xAxisGraph = "goals"
+        case "1": {xAxisGraph = "goals"; text_for_xAxis = "Goals"}
         break;
-        case "2": xAxisGraph = "shots"
+        case "2": {xAxisGraph = "shots"; text_for_xAxis = "Shots"}
         break;
-        case "3": xAxisGraph = "hits"
+        case "3": {xAxisGraph = "hits"; text_for_xAxis = "Hits"}
         break;
-        case "4": xAxisGraph = "PPpercentage"
+        case "4": {xAxisGraph = "PPpercentage"; text_for_xAxis = "Power Play Realization"}
         break;
-        case "5": xAxisGraph = "pim"
+        case "5": {xAxisGraph = "pim"; text_for_xAxis = "Penalty Minutes"}
         break;
-        case "6": xAxisGraph = "faceOffPercentage"
+        case "6": {xAxisGraph = "faceOffPercentage"; text_for_xAxis = "Face-off Winning %"}
         break;
-        case "7": xAxisGraph = "goals_home"
+        case "7": {xAxisGraph = "goals_home"; text_for_xAxis = "Home Goals"}
         break;
-        case "8": xAxisGraph = "goals_away"
+        case "8": {xAxisGraph = "goals_away"; text_for_xAxis = "Away Goals"}
         break;
-        case "9": xAxisGraph = "shortHandedGoals"
+        case "9": {xAxisGraph = "shortHandedGoals"; text_for_xAxis = "Shorthanded Goals"}
         break;
-        case "10": xAxisGraph = "goals_match"
+        case "10": {xAxisGraph = "goals_match"; text_for_xAxis = "Goals per Match"}
         break;
-        case "11": xAxisGraph = "shots_match"
+        case "11": {xAxisGraph = "shots_match"; text_for_xAxis = "Shots per Match"}
         break;
-        case "12": xAxisGraph = "hits_match"
+        case "12": {xAxisGraph = "hits_match"; text_for_xAxis = "Hits per Match"}
         break;
-        case "13": xAxisGraph = "pim_match"
+        case "13": {xAxisGraph = "pim_match"; text_for_xAxis = "Penalty Minutes per Match"}
         break;
-        case "14": xAxisGraph = "goals_home_match"
+        case "14": {xAxisGraph = "goals_home_match"; text_for_xAxis = "Home Goals per Match"}
         break;
-        case "15": xAxisGraph = "goals_away_match"
+        case "15": {xAxisGraph = "goals_away_match"; text_for_xAxis = "Away Goals per Match"}
         break;
-        case "16": xAxisGraph = "takeaways_match"
+        case "16": {xAxisGraph = "takeaways_match"; text_for_xAxis = "Takeaways per Match"}
         break;
-        case "17": xAxisGraph = "giveaways_match"
+        case "17": {xAxisGraph = "giveaways_match"; text_for_xAxis = "Giveaways per Match"}
         break;
-        case "18": xAxisGraph = "takeaways"
+        case "18": {xAxisGraph = "takeaways"; text_for_xAxis = "Takeaways"}
         break;
-        case "19": xAxisGraph = "giveaways"
+        case "19": {xAxisGraph = "giveaways"; text_for_xAxis = "Giveaways"}
         break;
         default:
         xAxisGraph = "shots";
@@ -499,44 +501,43 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
         var yAxis_dropdown = document.getElementById("select-yAxis");
         yAxisGraph = yAxis_dropdown.options[yAxis_dropdown.selectedIndex].value;
         switch(yAxisGraph) {
-        case "1": yAxisGraph = "goals"
+        case "1": {yAxisGraph = "goals"; text_for_yAxis = "Goals"}
         break;
-        case "2": yAxisGraph = "shots"
+        case "2": {yAxisGraph = "shots"; text_for_yAxis = "Shots"}
         break;
-        case "3": yAxisGraph = "hits"
+        case "3": {yAxisGraph = "hits"; text_for_yAxis = "Hits"}
         break;
-        case "4": yAxisGraph = "PPpercentage"
+        case "4": {yAxisGraph = "PPpercentage"; text_for_yAxis = "Power Play Realization"}
         break;
-        case "5": yAxisGraph = "pim"
+        case "5": {yAxisGraph = "pim"; text_for_yAxis = "Penalty Minutes"}
         break;
-        case "6": yAxisGraph = "faceOffPercentage"
+        case "6": {yAxisGraph = "faceOffPercentage"; text_for_yAxis = "Face-off Winning %"}
         break;
-        case "7": yAxisGraph = "goals_home"
+        case "7": {yAxisGraph = "goals_home"; text_for_yAxis = "Home Goals"}
         break;
-        case "8": yAxisGraph = "goals_away"
+        case "8": {yAxisGraph = "goals_away"; text_for_yAxis = "Away Goals"}
         break;
-        case "9": yAxisGraph = "shortHandedGoals"
+        case "9": {yAxisGraph = "shortHandedGoals"; text_for_yAxis = "Shorthanded Goals"}
         break;
-        case "10": yAxisGraph = "goals_match"
+        case "10": {yAxisGraph = "goals_match"; text_for_yAxis = "Goals per Match"}
         break;
-        case "11": yAxisGraph = "shots_match"
+        case "11": {yAxisGraph = "shots_match"; text_for_yAxis = "Shots per Match"}
         break;
-        case "12": yAxisGraph = "hits_match"
+        case "12": {yAxisGraph = "hits_match"; text_for_yAxis = "Hits per Match"}
         break;
-        case "13": yAxisGraph = "pim_match"
+        case "13": {yAxisGraph = "pim_match"; text_for_yAxis = "Penalty Minutes per Match"}
         break;
-        case "14": yAxisGraph = "goals_home_match"
+        case "14": {yAxisGraph = "goals_home_match"; text_for_yAxis = "Home Goals per Match"}
         break;
-        case "15": yAxisGraph = "goals_away_match"
+        case "15": {yAxisGraph = "goals_away_match"; text_for_yAxis = "Away Goals per Match"}
         break;
-        case "16": yAxisGraph = "takeaways_match"
+        case "16": {yAxisGraph = "takeaways_match"; text_for_yAxis = "Takeaways per Match"}
         break;
-        case "17": yAxisGraph = "giveaways_match"
+        case "17": {yAxisGraph = "giveaways_match"; text_for_yAxis = "Giveaways per Match"}
         break;
-        case "18": yAxisGraph = "takeaways"
+        case "18": {yAxisGraph = "takeaways"; text_for_yAxis = "Takeaways"}
         break;
-        case "19": yAxisGraph = "giveaways"
-        break;
+        case "19": {yAxisGraph = "giveaways"; text_for_yAxis = "Giveaways"}
         default:
         yAxisGraph = "goals";
         }    
@@ -687,7 +688,7 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text(xAxisGraph);
+      .text(text_for_xAxis);
 
   // y-axis
   svgAllTeams.append("g")
@@ -702,7 +703,7 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
       .attr("y",6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text(yAxisGraph);
+      .text(text_for_yAxis);
 
   // draw dots
   svgAllTeams.selectAll(".teams_loc")
@@ -729,8 +730,8 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
             var nec_team = teams.filter((x) => {return x.id == d.id});
             var x_cur = xValue(d);
             var y_cur = yValue(d);
-            if ((xAxisGraph == "PPpercentage") || (xAxisGraph=="faceOffPerecentage")) {x_cur = (x_cur*100).toFixed(2)+"%"}
-            if ((yAxisGraph == "PPpercentage") || (yAxisGraph=="faceOffPerecentage")) {y_cur = (y_cur*100).toFixed(2)+"%"}
+            if ((xAxisGraph == "PPpercentage") || (xAxisGraph=="faceOffPercentage")) {x_cur = (x_cur*100).toFixed(2)+"%"}
+            if ((yAxisGraph == "PPpercentage") || (yAxisGraph=="faceOffPercentage")) {y_cur = (y_cur*100).toFixed(2)+"%"}
             if ((xAxisGraph == "goals_match") || (xAxisGraph=="shots_match") || (xAxisGraph=="pim_match") ||
              (xAxisGraph=="takeaways_match") || (xAxisGraph=="giveaways_match") || (xAxisGraph=="goals_home_match") ||
              (xAxisGraph=="goals_away_match") || (xAxisGraph=="hits_match")) {x_cur = (x_cur).toFixed(2)}
@@ -738,7 +739,7 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
              (yAxisGraph=="takeaways_match") || (yAxisGraph=="giveaways_match") || (yAxisGraph=="goals_home_match") ||
              (yAxisGraph=="goals_away_match") || (yAxisGraph=="hits_match")) {y_cur = (y_cur).toFixed(2)}
             tooltip_scatter.html(
-                nec_team[0].team + "<br/> (" +xAxisGraph+": "+ x_cur + ", " +yAxisGraph+": " + y_cur + ")"
+                nec_team[0].team + "<br/> (" +text_for_xAxis+": "+ x_cur + ", " +text_for_yAxis+": " + y_cur + ")"
             )
                .style("left", (d3.event.pageX + 5) + "px")
                .style("top", (d3.event.pageY - 5) + "px");
