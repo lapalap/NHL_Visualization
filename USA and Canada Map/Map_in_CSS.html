@@ -63,7 +63,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     position: absolute;			
     text-align: center;		
     width: 140px;					
-    height: 14px;					
+    height: 16px;					
     padding: 2px;				
     font: 12px sans-serif;		
     background:lightsteelblue;	
@@ -78,7 +78,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     text-align: center;	
     vertical-align: middle;		
     width: auto;					
-    height: 28px;					
+    height: 30px;					
     padding: 2px;				
     font: 12px sans-serif;		
     background:lightsteelblue;	
@@ -149,7 +149,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     }
 </style>
 <head>
-  <title>NHL Teams</title>
+  <title>NHL Teams Summary</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="js/jquery.min.js"></script>
@@ -191,9 +191,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <div class="w3-hide-large" style="margin-top:83px"></div>
 
       <!-- Top header -->
-      <header class="w3-container w3-xlarge">
-        <p class="w3-left" style="font-size:160%;">NHL Teams</p>
+      <header class="w3-container w3-xlarge" style="margin-bottom:0px">
+        <p class="w3-left" style="font-size:160%">NHL Teams Summary</p>
       </header>
+      <h5>Select the team on the map to compare it to all the teams in the league and see the squad for the selected season. </h5>
       <div  class="season-choice">
         <div class="control-group" style="margin-top:0px">
           <label for="select-season">Season:</label>
@@ -209,10 +210,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           </select>
         </div>
           <div id="map"></div>
+          <h5 style="margin-bottom:0px" class = "scatterplot_header">Select which stats you want to see on the plot for the chosen season</h5>
+          To compare teams head to head, select these teams on the graph
           <div class= "row">
               <div class= column style="width:15%" style = "float:left">
                 <div  class="xAxis-choice">
-                        <div class="control-group" style="margin-top:0px">
+                        <div class="control-group" style="margin-top:10px">
                           <label for="select-xAxis">Choose xAxis:</label>
                           <select id="select-xAxis" class="select-xAxis-1" placeholder="Select xAxis...">
                                 <option value="">Select xAxis</option>
@@ -270,7 +273,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
                 <div id="graph"> </div>
                 </div>
                 </div>
-                <div class="comparison_table"></div>
+                <div class="comparison_table">
+                        <h4 class = "comparison_header" style = "font-weight: 800">Head-to-Head comparison for all seasons</h4>
+                </div>
         <script>
           $('#select-season').selectize({
             create: true,
@@ -337,7 +342,10 @@ var margin = {top: 20, right: 0, bottom: 30, left: 10},
     var comparison_table = d3.select(".comparison_table")				
     .style("opacity", 0)
     .style("left", width/2.5+"px")
-    .style("top", 4*height/3+"px");
+    .style("top", 4.3*height/3+"px");
+
+    var comparison_header = d3.select(".comparison_header")				
+    .style("opacity", 0)
 
     var yAxis_choice = d3.select(".yAxis-choice")				
     .style("left", "0px")
@@ -426,6 +434,14 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
             {draw_tree(main_team_chosen, players,teams)};
         hide_scatterplot();
         draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats);
+        if (season == "All"){
+            d3.selectAll(".scatterplot_header")
+            .html("Select which stats you want to see on the plot for all seasons")
+        }
+        else {
+            d3.selectAll(".scatterplot_header")
+            .html("Select which stats you want to see on the plot for the " +season.substring(1,5)+"/"+season.substring(5,9) +" season")
+        }
     }
 
     function xAxis_change() {
@@ -662,6 +678,7 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
   svgAllTeams.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + parseFloat(2*height+150) + ")")
+      .style("font", "24px sans-serif")
       .call(xAxis)
     .append("text")
       .attr("class", "label")
@@ -674,6 +691,7 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
   svgAllTeams.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(-"+400+",0" + ")")
+      .style("font", "24px sans-serif")
       .call(yAxis)
     .append("text")
       .attr("class", "label")
@@ -713,10 +731,10 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
             if ((yAxisGraph == "PPpercentage") || (yAxisGraph=="faceOffPerecentage")) {y_cur = (y_cur*100).toFixed(2)+"%"}
             if ((xAxisGraph == "goals_match") || (xAxisGraph=="shots_match") || (xAxisGraph=="pim_match") ||
              (xAxisGraph=="takeaways_match") || (xAxisGraph=="giveaways_match") || (xAxisGraph=="goals_home_match") ||
-             (xAxisGraph=="goals_away_match")) {x_cur = (x_cur).toFixed(2)}
+             (xAxisGraph=="goals_away_match") || (xAxisGraph=="hits_match")) {x_cur = (x_cur).toFixed(2)}
             if ((yAxisGraph == "goals_match") || (yAxisGraph=="shots_match") || (yAxisGraph=="pim_match") ||
              (yAxisGraph=="takeaways_match") || (yAxisGraph=="giveaways_match") || (yAxisGraph=="goals_home_match") ||
-             (yAxisGraph=="goals_away_match")) {y_cur = (y_cur).toFixed(2)}
+             (yAxisGraph=="goals_away_match") || (yAxisGraph=="hits_match")) {y_cur = (y_cur).toFixed(2)}
             tooltip_scatter.html(
                 nec_team[0].team + "<br/> (" +xAxisGraph+": "+ x_cur + ", " +yAxisGraph+": " + y_cur + ")"
             )
@@ -880,7 +898,7 @@ g.append("g").selectAll(".teams_headTohead")
 .style("opacity","0")
 .transition()
 .duration(500)
-.style("opacity",".5")
+.style("opacity",".4")
 .style("stroke-opacity", "1")
 ;}
 else {
@@ -900,12 +918,15 @@ g.selectAll("#head_to_head_paths"+team_chosen.id)
 function hide_comparison(){
   comparison_table.style("opacity","0");
   comparison_table.selectAll("tr").remove();
+  comparison_header.style("opacity","0");
 }
 
 function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams){
+    g.append("g")
     comparison_table.selectAll("tr").remove();
 		var thead = comparison_table.append('thead')
-		var	tbody = comparison_table.append('tbody');
+        var	tbody = comparison_table.append('tbody');
+    comparison_header.style("opacity","1");
     var main_team = teams.filter((x) => {return x.id == main_team_chosen});
     var second_team = teams.filter((x) => {return x.id == d.id});
     var column_names = ["",main_team[0].team, second_team[0].team];
@@ -997,15 +1018,15 @@ function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, team
         .style("background-color", function(row){
           if (parseFloat(row['team_1']) > parseFloat(row['team_2'])) {
             if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
-              return ("red")
-            else return ("green")
+              return ("#fc8d59")
+            else return ("#91cf60")
           }
           else if (parseFloat(row['team_1']) < parseFloat(row['team_2'])) {
             if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
-              return ("green")
-            else return ("red")
+              return ("#91cf60")
+            else return ("#fc8d59")
           }
-          else return ("yellow");
+          else return ("#ffffbf");
         })
         .transition()
         .duration(500)
@@ -1018,15 +1039,15 @@ function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, team
         .style("background-color", function(row){
           if (parseFloat(row['team_2']) > parseFloat(row['team_1'])) {
             if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
-              return ("red")
-            else return ("green")
+              return ("#fc8d59")
+            else return ("#91cf60")
           }
           else if (parseFloat(row['team_2']) < parseFloat(row['team_1'])) {
             if ((row['id'] == "Penalty minutes") || (row['id'] == "Giveaways") || (row['id'] == "Hits"))
-              return ("green")
-            else return ("red")
+              return ("#91cf60")
+            else return ("#fc8d59")
           }
-          else return ("yellow");
+          else return ("#ffffbf");
         })
         .transition()
         .duration(500)
