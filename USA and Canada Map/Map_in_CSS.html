@@ -77,7 +77,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     position: absolute;			
     text-align: center;	
     vertical-align: middle;		
-    width: 140px;					
+    width: auto;					
     height: 28px;					
     padding: 2px;				
     font: 12px sans-serif;		
@@ -95,7 +95,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     }
     div.container {
         height: 17px;
-        text-align: center;
+        text-align: right;
         margin: auto;
       }
     .negative {
@@ -106,6 +106,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       }
     .positive {
         height: 17px;
+      }
+
+    .zero-line {
+        height: 17px;
+        text-align: right;
       }
 
     .node {
@@ -136,6 +141,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
     .dot {
       stroke: #000;
+    }
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
     }
 </style>
 <head>
@@ -199,43 +209,68 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           </select>
         </div>
           <div id="map"></div>
-          <div id="graph">
+          <div class= "row">
+              <div class= column style="width:15%" style = "float:left">
                 <div  class="xAxis-choice">
                         <div class="control-group" style="margin-top:0px">
                           <label for="select-xAxis">Choose xAxis:</label>
-                          <select id="select-xAxis" class="select-xAxis-1" style="width:15%" placeholder="Select xAxis...">
+                          <select id="select-xAxis" class="select-xAxis-1" placeholder="Select xAxis...">
                                 <option value="">Select xAxis</option>
                                 <option value="1">Goals</option>
                                 <option value="2">Shots</option>
                                 <option value="3">Hits</option>
                                 <option value="4">Power Play Realization</option>
-                                <option value="5">Penalty minutes</option>
-                                <option value="6">Face-off winning percentage</option>
+                                <option value="5">Penalty Minutes</option>
+                                <option value="6">Face-off Winning Percentage</option>
+                                <option value="18">Takeaways</option>
+                                <option value="19">Giveaways</option>
                                 <option value="7">Home Goals</option>
                                 <option value="8">Away Goals</option>
                                 <option value="9">Shorthanded Goals</option>
+                                <option value="10">Goals per Match</option>
+                                <option value="11">Shots per Match</option>
+                                <option value="12">Hits per Match</option>
+                                <option value="13">Penalty Minutes per Match</option>
+                                <option value="14">Home Goals per Match</option>
+                                <option value="15">Away Goals per Match</option>
+                                <option value="16">Takeaways per Match</option>
+                                <option value="17">Giveaways per Match</option>
                           </select>
                         </div>
                 </div>
                 <div  class="yAxis-choice">
                         <div class="control-group" style="margin-top:30px">
                           <label for="select-yAxis">Choose yAxis:</label>
-                          <select id="select-yAxis" class="select-yAxis-1" style="width:15%" placeholder="Select yAxis...">
+                          <select id="select-yAxis" class="select-yAxis-1" placeholder="Select yAxis...">
                                 <option value="">Select xAxis</option>
                                 <option value="1">Goals</option>
                                 <option value="2">Shots</option>
                                 <option value="3">Hits</option>
                                 <option value="4">Power Play Realization</option>
-                                <option value="5">Penalty minutes</option>
-                                <option value="6">Face-off winning percentage</option>
+                                <option value="5">Penalty Minutes</option>
+                                <option value="6">Face-off Winning Percentage</option>
+                                <option value="18">Takeaways</option>
+                                <option value="19">Giveaways</option>
                                 <option value="7">Home Goals</option>
                                 <option value="8">Away Goals</option>
                                 <option value="9">Shorthanded Goals</option>
+                                <option value="10">Goals per Match</option>
+                                <option value="11">Shots per Match</option>
+                                <option value="12">Hits per Match</option>
+                                <option value="13">Penalty Minutes per Match</option>
+                                <option value="14">Home Goals per Match</option>
+                                <option value="15">Away Goals per Match</option>
+                                <option value="16">Takeaways per Match</option>
+                                <option value="17">Giveaways per Match</option>
                           </select>
                         </div>
                 </div>
+                </div>
+                <div class= column style="width:85%" style = "float:left">
+                <div id="graph"> </div>
+                </div>
+                </div>
                 <div class="comparison_table"></div>
-        </div>
         <script>
           $('#select-season').selectize({
             create: true,
@@ -277,13 +312,15 @@ var margin = {top: 20, right: 0, bottom: 30, left: 10},
         .attr("width", m_width)
         .attr("height", m_width * height / width);
 
-    var svgAllTeams = d3.select("#graph").append("svg")
-        .attr("preserveAspectRatio", "xMidYMid")
-        .attr("viewBox", "0 "+(parseFloat(height)+100)+" " + width + " " + 2*height)
-        .attr("width", m_width)
-        .attr("height", height-200);
+    // var svgAllTeams = d3.select("#graph").append("svg")
+    //     .attr("id", "scatterplot_teams")
+    //     .attr("preserveAspectRatio", "xMidYMid")
+    //     .attr("viewBox", "0 "+(parseFloat(height)+100)+" " + width + " " + 2*height)
+    //     .attr("width", m_width)
+    //     .attr("height", height-200);
     
     var season = "s20172018";
+    var main_team_chosen = 0;
 
     // Define the div for the tooltip
     var div = d3.select("body").append("div")	
@@ -365,14 +402,130 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
         /*.attr("id", function(d) { return d.id; })*/
         .attr("d", path)
   // variable if the logo was clicked
-  var main_team_chosen = 0;
   var compared_team_chosen = teams[0];
+  var team_chosen_for_lines = "";
+  var team_chosen_for_lines_info = "";
 
   $('#select-season').selectize({
             create: true,
             dropdownParent: 'body'
           });
   
+    document.getElementById("select-season").onchange = function() {season_change()};
+    document.getElementById("select-xAxis").onchange = function() {xAxis_change()};
+    document.getElementById("select-yAxis").onchange = function() {yAxis_change()};
+
+    function season_change() {
+        var season_dropdown = document.getElementById("select-season");
+        season = season_dropdown.options[season_dropdown.selectedIndex].value;
+        if (season == "") {season = "All"}
+        else if (season == 1){ season = "All"}
+        else {season = "s201"+season+"201"+(parseFloat(season)+1)}
+        hide_tree();
+        if (main_team_chosen != 0)
+            {draw_tree(main_team_chosen, players,teams)};
+        hide_scatterplot();
+        draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats);
+    }
+
+    function xAxis_change() {
+        var xAxis_dropdown = document.getElementById("select-xAxis");
+        xAxisGraph = xAxis_dropdown.options[xAxis_dropdown.selectedIndex].value;
+        switch(xAxisGraph) {
+        case "1": xAxisGraph = "goals"
+        break;
+        case "2": xAxisGraph = "shots"
+        break;
+        case "3": xAxisGraph = "hits"
+        break;
+        case "4": xAxisGraph = "PPpercentage"
+        break;
+        case "5": xAxisGraph = "pim"
+        break;
+        case "6": xAxisGraph = "faceOffPercentage"
+        break;
+        case "7": xAxisGraph = "goals_home"
+        break;
+        case "8": xAxisGraph = "goals_away"
+        break;
+        case "9": xAxisGraph = "shortHandedGoals"
+        break;
+        case "10": xAxisGraph = "goals_match"
+        break;
+        case "11": xAxisGraph = "shots_match"
+        break;
+        case "12": xAxisGraph = "hits_match"
+        break;
+        case "13": xAxisGraph = "pim_match"
+        break;
+        case "14": xAxisGraph = "goals_home_match"
+        break;
+        case "15": xAxisGraph = "goals_away_match"
+        break;
+        case "16": xAxisGraph = "takeaways_match"
+        break;
+        case "17": xAxisGraph = "giveaways_match"
+        break;
+        case "18": xAxisGraph = "takeaways"
+        break;
+        case "19": xAxisGraph = "giveaways"
+        break;
+        default:
+        xAxisGraph = "shots";
+        }        
+        hide_scatterplot();
+        draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats);
+    }
+
+    function yAxis_change() {
+        var yAxis_dropdown = document.getElementById("select-yAxis");
+        yAxisGraph = yAxis_dropdown.options[yAxis_dropdown.selectedIndex].value;
+        switch(yAxisGraph) {
+        case "1": yAxisGraph = "goals"
+        break;
+        case "2": yAxisGraph = "shots"
+        break;
+        case "3": yAxisGraph = "hits"
+        break;
+        case "4": yAxisGraph = "PPpercentage"
+        break;
+        case "5": yAxisGraph = "pim"
+        break;
+        case "6": yAxisGraph = "faceOffPercentage"
+        break;
+        case "7": yAxisGraph = "goals_home"
+        break;
+        case "8": yAxisGraph = "goals_away"
+        break;
+        case "9": yAxisGraph = "shortHandedGoals"
+        break;
+        case "10": yAxisGraph = "goals_match"
+        break;
+        case "11": yAxisGraph = "shots_match"
+        break;
+        case "12": yAxisGraph = "hits_match"
+        break;
+        case "13": yAxisGraph = "pim_match"
+        break;
+        case "14": yAxisGraph = "goals_home_match"
+        break;
+        case "15": yAxisGraph = "goals_away_match"
+        break;
+        case "16": yAxisGraph = "takeaways_match"
+        break;
+        case "17": yAxisGraph = "giveaways_match"
+        break;
+        case "18": yAxisGraph = "takeaways"
+        break;
+        case "19": yAxisGraph = "giveaways"
+        break;
+        default:
+        yAxisGraph = "goals";
+        }    
+        hide_scatterplot();
+        draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats);
+    }
+
   g.append("g").selectAll(".teams_loc")
 	.data(teams)
 	.enter().append("svg:image")
@@ -423,86 +576,30 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
     .duration(500)		
     .style("opacity", 0);	})
   .on("click", function(d) {
-    var season_dropdown = document.getElementById("select-season");
-    season = season_dropdown.options[season_dropdown.selectedIndex].value;
-    if (season == "") {season = "All"}
-    else if (season == 1){ season = "All"}
-    else {season = "s201"+season+"201"+(parseFloat(season)+1)}
-    console.log(season);
     var w_team = this.getAttribute("width");
     var h_team = this.getAttribute("height");
     var x_team = parseFloat(this.getAttribute("x"));
     var y_team = parseFloat(this.getAttribute("y"));
-    var w_compared_team = compared_team_chosen.getAttribute("width");
-    var h_compared_team = compared_team_chosen.getAttribute("height");
-    var x_compared_team = parseFloat(compared_team_chosen.getAttribute("x"));
-    var y_compared_team = parseFloat(compared_team_chosen.getAttribute("y"));
-    if ((main_team_chosen) && (main_team_chosen != d.id))
-      if (compared_team_chosen.getAttribute("team_clicked_for_comparison") == 'false'){
-        d3.select(this)
-        .transition()
-        .duration(500)
-        .attr("x", x_team-0.125*w_team)
-        .attr("y", y_team-0.125*h_team)
-        .attr("width", w_team*1.25)
-        .attr("height", h_team*1.25)
-        .attr("team_clicked_for_comparison", true)
-        compared_team_chosen = this;
-        //show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
-      }
-      else {
-        if (compared_team_chosen == this){
-        d3.select(this)
-        .transition()
-        .duration(500)
-        .attr("x", x_team+0.1*w_team)
-        .attr("y", y_team+0.1*h_team)
-        .attr("width", w_team/1.25)
-        .attr("height", h_team/1.25)
-        .attr("team_clicked_for_comparison", false)
-        compared_team_chosen = this;
-        //hide_comparison();
-        }
-        else {
-        d3.select(compared_team_chosen)
-        .transition()
-        .duration(500)
-        .attr("x", x_compared_team+0.1*w_compared_team)
-        .attr("y", y_compared_team+0.1*h_compared_team)
-        .attr("width", w_compared_team/1.25)
-        .attr("height", h_compared_team/1.25)
-        .attr("team_clicked_for_comparison", false);
-        d3.select(this)
-        .transition()
-        .duration(500)
-        .attr("x", x_team-0.125*w_team)
-        .attr("y", y_team-0.125*h_team)
-        .attr("width", w_team*1.25)
-        .attr("height", h_team*1.25)
-        .attr("team_clicked_for_comparison", true)
-        compared_team_chosen = this;
-        //show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
-        }
-      }
-    else {
-    hide_comparison();
     d.team_clicked = !d.team_clicked;
-    if (!main_team_chosen)
-      main_team_chosen = d.id;
-    else if ((main_team_chosen) && (main_team_chosen == d.id)){
-      main_team_chosen = 0;
-      if (compared_team_chosen.getAttribute("team_clicked_for_comparison") == 'true'){
-        d3.select(compared_team_chosen)
-        .transition()
-        .duration(500)
-        .attr("x", x_compared_team+0.1*w_compared_team)
-        .attr("y", y_compared_team+0.1*h_compared_team)
-        .attr("width", w_compared_team/1.25)
-        .attr("height", h_compared_team/1.25)
-        .attr("team_clicked_for_comparison", false);
-      }
-    }
     if (d.team_clicked) {
+    if (team_chosen_for_lines != ""){
+    var w_chosen_team = team_chosen_for_lines.getAttribute("width");
+    var h_chosen_team = team_chosen_for_lines.getAttribute("height");
+    var x_chosen_team = parseFloat(team_chosen_for_lines.getAttribute("x"));
+    var y_chosen_team = parseFloat(team_chosen_for_lines.getAttribute("y"));
+    d3.select(team_chosen_for_lines)
+      .transition()
+      .duration(500)
+      .attr("x", x_chosen_team+w_chosen_team/6)
+      .attr("y", y_chosen_team+h_chosen_team/6)
+      .attr("width", w_chosen_team/1.5)
+      .attr("height", h_chosen_team/1.5)
+      hide_tree();
+      team_chosen_for_lines_info.team_clicked = false;
+      draw_lines(team_chosen_for_lines_info, headTohead, teams);
+      team_chosen_for_lines = "";
+      team_chosen_for_lines_info = "";
+    }
       d3.select(this)
       .transition()
       .duration(500)
@@ -510,9 +607,12 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
       .attr("y", y_team-0.25*h_team)
       .attr("width", w_team*1.5)
       .attr("height", h_team*1.5)
-      .attr("position", "absolute")
-      .style("z-index", "25")
-      draw_tree(main_team_chosen, d, players, teams);
+      .attr("style", "position:relative")
+      .attr("style", "z-index:250")
+      draw_tree(d.id, players, teams);
+      team_chosen_for_lines = this;
+      team_chosen_for_lines_info = d;
+      draw_lines(d, headTohead, teams);
     }
     else {
       d3.select(this)
@@ -522,19 +622,29 @@ function ready(error, us, teams, headTohead, headTohead_stats, players, teams_se
       .attr("y", y_team+h_team/6)
       .attr("width", w_team/1.5)
       .attr("height", h_team/1.5)
-      .attr("position", "relative")
       hide_tree();
-    }
-    draw_lines(d, headTohead, teams)
+      team_chosen_for_lines = "";
+      team_chosen_for_lines_info = "";
+      draw_lines(d, headTohead, teams);
     }
   })
 
   //Scatterplot for the teams comparison
+  draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats);
+}
 
-  var teams_in_season = teams_seasonal_stats.filter((x) => {return x.season == season});
+function draw_scatterplot(main_team_chosen,compared_team_chosen, teams_seasonal_stats, teams, headTohead, headTohead_stats){
+    var svgAllTeams = d3.select("#graph").append("svg")
+        .attr("id", "scatterplot_teams")
+        .attr("preserveAspectRatio", "xMidYMid")
+        .attr("viewBox", "0 "+(parseFloat(height)+100)+" " + width + " " + 2*height)
+        .attr("width", m_width)
+        .attr("height", height-200);
+
+    var teams_in_season = teams_seasonal_stats.filter((x) => {return x.season == season});
   // setup x 
 var xValue = function(d) {return parseFloat(d[xAxisGraph]);}, // data -> value
-    xScale = d3.scale.linear().range([0, width]), // value -> display
+    xScale = d3.scale.linear().range([-400, width]), // value -> display
     xMap = function(d) {return xScale(xValue(d))-20;}, // data -> display
     xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
@@ -545,8 +655,8 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
     yAxis = d3.svg.axis().scale(yScale).orient("left");
 
   // don't want dots overlapping axis, so add in buffer to data domain
-  xScale.domain([d3.min(teams_in_season, xValue)-1, d3.max(teams_in_season, xValue)+1]);
-  yScale.domain([d3.min(teams_in_season, yValue)-1, d3.max(teams_in_season, yValue)+1]);
+  xScale.domain([d3.min(teams_in_season, xValue)*0.98, d3.max(teams_in_season, xValue)*1.02]);
+  yScale.domain([d3.min(teams_in_season, yValue)*0.98, d3.max(teams_in_season, yValue)*1.02]);
 
   // x-axis
   svgAllTeams.append("g")
@@ -563,11 +673,13 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
   // y-axis
   svgAllTeams.append("g")
       .attr("class", "y axis")
+      .attr("transform", "translate(-"+400+",0" + ")")
       .call(yAxis)
     .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
+      .attr("x", -height-150)
+      .attr("y",6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text(yAxisGraph);
@@ -591,13 +703,23 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
       .attr("team_clicked", false)
       .attr("team_clicked_for_comparison", false)
       .on("mouseover", function(d) {
-          tooltip_scatter.transition()
+            tooltip_scatter.transition()
                .duration(200)
                .style("opacity", .9);
-          var nec_team = teams.filter((x) => {return x.id == d.id});
-          tooltip_scatter.html(
-            nec_team[0].team + "<br/> (" +xAxisGraph+": "+ xValue(d) + ", " +yAxisGraph+": " + yValue(d) + ")"
-          )
+            var nec_team = teams.filter((x) => {return x.id == d.id});
+            var x_cur = xValue(d);
+            var y_cur = yValue(d);
+            if ((xAxisGraph == "PPpercentage") || (xAxisGraph=="faceOffPerecentage")) {x_cur = (x_cur*100).toFixed(2)+"%"}
+            if ((yAxisGraph == "PPpercentage") || (yAxisGraph=="faceOffPerecentage")) {y_cur = (y_cur*100).toFixed(2)+"%"}
+            if ((xAxisGraph == "goals_match") || (xAxisGraph=="shots_match") || (xAxisGraph=="pim_match") ||
+             (xAxisGraph=="takeaways_match") || (xAxisGraph=="giveaways_match") || (xAxisGraph=="goals_home_match") ||
+             (xAxisGraph=="goals_away_match")) {x_cur = (x_cur).toFixed(2)}
+            if ((yAxisGraph == "goals_match") || (yAxisGraph=="shots_match") || (yAxisGraph=="pim_match") ||
+             (yAxisGraph=="takeaways_match") || (yAxisGraph=="giveaways_match") || (yAxisGraph=="goals_home_match") ||
+             (yAxisGraph=="goals_away_match")) {y_cur = (y_cur).toFixed(2)}
+            tooltip_scatter.html(
+                nec_team[0].team + "<br/> (" +xAxisGraph+": "+ x_cur + ", " +yAxisGraph+": " + y_cur + ")"
+            )
                .style("left", (d3.event.pageX + 5) + "px")
                .style("top", (d3.event.pageY - 5) + "px");
       })
@@ -607,8 +729,6 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
                .style("opacity", 0);
       })
       .on("click", function(d) {
-    console.log(main_team_chosen);
-    console.log(compared_team_chosen);
     var w_team = this.getAttribute("width");
     var h_team = this.getAttribute("height");
     var x_team = parseFloat(this.getAttribute("x"));
@@ -622,10 +742,10 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
         d3.select(this)
         .transition()
         .duration(500)
-        .attr("x", x_team-0.125*w_team)
-        .attr("y", y_team-0.125*h_team)
-        .attr("width", w_team*1.25)
-        .attr("height", h_team*1.25)
+        .attr("x", x_team-0.25*w_team)
+        .attr("y", y_team-0.25*h_team)
+        .attr("width", w_team*1.5)
+        .attr("height", h_team*1.5)
         .attr("team_clicked_for_comparison", true)
         compared_team_chosen = this;
         show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
@@ -635,10 +755,10 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
         d3.select(this)
         .transition()
         .duration(500)
-        .attr("x", x_team+0.1*w_team)
-        .attr("y", y_team+0.1*h_team)
-        .attr("width", w_team/1.25)
-        .attr("height", h_team/1.25)
+        .attr("x", x_team+w_team/6)
+        .attr("y", y_team+h_team/6)
+        .attr("width", w_team/1.5)
+        .attr("height", h_team/1.5)
         .attr("team_clicked_for_comparison", false)
         compared_team_chosen = this;
         hide_comparison();
@@ -647,18 +767,18 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
         d3.select(compared_team_chosen)
         .transition()
         .duration(500)
-        .attr("x", x_compared_team+0.1*w_compared_team)
-        .attr("y", y_compared_team+0.1*h_compared_team)
-        .attr("width", w_compared_team/1.25)
-        .attr("height", h_compared_team/1.25)
+        .attr("x", x_compared_team+w_compared_team/6)
+        .attr("y", y_compared_team+h_compared_team/6)
+        .attr("width", w_compared_team/1.5)
+        .attr("height", h_compared_team/1.5)
         .attr("team_clicked_for_comparison", false);
         d3.select(this)
         .transition()
         .duration(500)
-        .attr("x", x_team-0.125*w_team)
-        .attr("y", y_team-0.125*h_team)
-        .attr("width", w_team*1.25)
-        .attr("height", h_team*1.25)
+        .attr("x", x_team-0.25*w_team)
+        .attr("y", y_team-0.25*h_team)
+        .attr("width", w_team*1.5)
+        .attr("height", h_team*1.5)
         .attr("team_clicked_for_comparison", true)
         compared_team_chosen = this;
         show_comparison(main_team_chosen, d, headTohead, headTohead_stats, teams);
@@ -667,7 +787,6 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
     else {
     hide_comparison();
     d.team_clicked = !d.team_clicked;
-    console.log(d);
     if (!main_team_chosen)
       main_team_chosen = d.id;
     else if ((main_team_chosen) && (main_team_chosen == d.id)){
@@ -676,10 +795,10 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
         d3.select(compared_team_chosen)
         .transition()
         .duration(500)
-        .attr("x", x_compared_team+0.1*w_compared_team)
-        .attr("y", y_compared_team+0.1*h_compared_team)
-        .attr("width", w_compared_team/1.25)
-        .attr("height", h_compared_team/1.25)
+        .attr("x", x_compared_team+w_compared_team/6)
+        .attr("y", y_compared_team+h_compared_team/6)
+        .attr("width", w_compared_team/1.5)
+        .attr("height", h_compared_team/1.5)
         .attr("team_clicked_for_comparison", false);
       }
     }
@@ -687,22 +806,27 @@ var yValue = function(d) { return parseFloat(d[yAxisGraph]);}, // data -> value
       d3.select(this)
       .transition()
       .duration(500)
-      .attr("x", x_team-0.25*w_team)
-      .attr("y", y_team-0.25*h_team)
-      .attr("width", w_team*1.5)
-      .attr("height", h_team*1.5)
+      .attr("x", x_team-0.5*w_team)
+      .attr("y", y_team-0.5*h_team)
+      .attr("width", w_team*2)
+      .attr("height", h_team*2)
     }
     else {
       d3.select(this)
       .transition()
       .duration(500)
-      .attr("x", x_team+w_team/6)
-      .attr("y", y_team+h_team/6)
-      .attr("width", w_team/1.5)
-      .attr("height", h_team/1.5)
+      .attr("x", x_team+w_team/4)
+      .attr("y", y_team+h_team/4)
+      .attr("width", w_team/2)
+      .attr("height", h_team/2)
     }
     }
   })
+}
+
+function hide_scatterplot(){
+    d3.selectAll("#scatterplot_teams")
+    .remove();
 }
 
 function draw_lines(team_chosen, headTohead, teams) {
@@ -735,7 +859,8 @@ g.append("g").selectAll(".teams_headTohead")
 	dr = 4*Math.sqrt(dx * dx + dy * dy);
 	return "M" + coords_x + "," + coords_y + "A" + dr + "," + dr + " 0 0,1 " + coords_to_x + "," + coords_to_y;
 	})
-.attr("position", "relative")
+.attr("style", "position:relative")
+.attr("style", "z-index:0")
 .style("fill", function(d) {
   if (((team_chosen.id == d.playing_team_1) && (d.team_1_wins > d.count/2)) || ((team_chosen.id == d.playing_team_2) && (d.team_1_wins < d.count/2))){
     return ("green")
@@ -753,12 +878,10 @@ g.append("g").selectAll(".teams_headTohead")
 .style("stroke-width", "10")
 .style("stroke-opacity", "0")
 .style("opacity","0")
-.style("z-index", "1")
 .transition()
 .duration(500)
 .style("opacity",".5")
 .style("stroke-opacity", "1")
-.style("display", "block")
 ;}
 else {
 g.selectAll("#head_to_head_paths"+team_chosen.id)
@@ -784,12 +907,13 @@ function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, team
 		var thead = comparison_table.append('thead')
 		var	tbody = comparison_table.append('tbody');
     var main_team = teams.filter((x) => {return x.id == main_team_chosen});
-    var column_names = ["",main_team[0].team, d.team];
+    var second_team = teams.filter((x) => {return x.id == d.id});
+    var column_names = ["",main_team[0].team, second_team[0].team];
+    console.log(d);
     var column_names_in_array = ["id","team_1", "team_2"];
     var bar_charts = {team_1:"negative", team_2:"positive"};
     var main_row =headTohead_stats.filter((x) => {return ((x.playing_team_1 == main_team_chosen) && (x.playing_team_2 == d.id)) ||
       ((x.playing_team_1 ==d.id) && (x.playing_team_2 == main_team_chosen))})
-    console.log(main_row);
     //Object.keys(teams[1])
 		// append the header row
 		thead.append('tr')
@@ -839,14 +963,15 @@ function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, team
 		    });
     })
     .enter()
-    .append('td').attr("width", "140px")
+    .append('td').attr("width", "200px")
     .append('div').attr("class", "container")
     .text(function (d) { return d.value; })
     .attr("class", function(d) {
-      if (d.column == 'team_1') return ("negative")
+      if ((d.column == 'team_1') && (d.value == 0)) return ("zero-line")
+      else if (d.column == 'team_1') return ("negative")
       else if (d.column == 'team_2') return ("positive")
       else return ("")
-    })
+    });
 		// create a cell in each row for each column
 		/*var cells = rows.selectAll('td')
 		  .data(function (row) {
@@ -916,7 +1041,7 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
-function draw_tree(main_team_chosen, d, players, teams){
+function draw_tree(main_team_chosen, players, teams){
   var tree = d3.layout.tree()
 	    .size([500, 250]);
   var duration = 750;
