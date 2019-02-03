@@ -222,16 +222,18 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
               <img id ="left_profile_photo" class="profile_photo_left" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
               <p id="name_left_column" class="w3-large" style="color: black;"></p>
               <div id = "description_left" style="text-align:center;"></div>
+               <p id="scatter_text1" class="w3-large" style="color: black;"></p>
               <div id = "field_left" style="text-align:center;"></div>
             </div>
             <div class="column" id="column_right" style="text-align:center;">
               <img id ="right_profile_photo" class="profile_photo_right" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
               <p id="name_right_column" class="w3-large" style="color: black;"></p>
               <div id = "description_right" style="text-align:center;"></div>
+              <p id="scatter_text2" class="w3-large" style="color: black;"></p>
               <div id = "field_right" style="text-align:center;"></div>
             </div>
           </div>
-
+          <p id="dist_text" class="w3-large" style="color: black;"></p>
           <div class = "row" id = "row2">
             <div class="column" id="column_left2" style="text-align:center;">
                 <img id ="left_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
@@ -294,6 +296,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
                document.getElementById('name_left_column').innerHTML = dict[value[0]];
                document.getElementById('name_right_column').innerHTML = dict[value[1]];
+
+               document.getElementById('scatter_text1').innerHTML = "Scatterplot of position of goals";
+               document.getElementById('scatter_text2').innerHTML = "Scatterplot of position of goals";
+               document.getElementById('dist_text').innerHTML = "Distribution of distances of goals";
 
                d3.select("svg").remove();
                d3.select("svg").remove();
