@@ -960,11 +960,11 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
       .style("text-anchor", "end")
       .text(text_for_xAxis);
 
-    legend = svgLineGraph.append("g")
-    .attr("class","legend")
-    .attr("transform","translate(50,30)")
-    .style("font-size","12px")
-    .call(d3.legend)
+    // legend = svgLineGraph.append("g")
+    // .attr("class","legend")
+    // .attr("transform","translate(50,30)")
+    // .style("font-size","12px")
+    // .call(d3.legend)
 }
 
 function draw_lines(team_chosen, headTohead, teams) {
@@ -1062,7 +1062,15 @@ function show_comparison(main_team_chosen, d, headTohead, headTohead_stats, team
 		  .append('th')
 		    .text(function (column) { 
           return column; 
-          });
+          })
+        .style("color", function(column) {
+          if (column == main_team[0].team)
+           {return("#5ab4ac")}
+          else if (column == second_team[0].team){
+           {return("#d8b365")}
+          }
+        })
+        .style("font-weight", "900")
     var stats = [{id: "Wins", team_1: main_row[0].won_1, team_2: main_row[0].won_2},
                 {id:"Wins REG", team_1: main_row[0].REG_1_team, team_2: main_row[0].REG_2_team},
                 {id:"Wins OT", team_1: main_row[0].OT_1_team, team_2: main_row[0].OT_2_team},
