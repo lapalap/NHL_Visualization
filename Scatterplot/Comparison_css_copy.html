@@ -88,6 +88,27 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     .chart text.title {
       fill: #2216ff;
     }
+    .mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+  shape-rendering:crispEdges;
+}
+.edges{
+  stroke:none;
+  fill-opacity:0.5;
+}
+.header{
+  text-anchor:middle;
+  font-size:16px;
+}
+line{
+  stroke:grey;
+}
 
 
   </style>
@@ -102,6 +123,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <script src="js/radarChart.js"></script> 
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/normalize.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
     <!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
   </head>
   <body class="w3-content" style="max-width:1500px">
@@ -204,12 +227,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
             </div>
           </div>
 
-          <div class="row" id="next_row">
-            <div class="column_mini_left" id="column2_left" style="text-align:center;">
-              <div class="radarChart"></div>
-            </div>
-            <div class="column_" id="column2_right" style="text-align:center;">
-            </div>
+          <div class="row" id="hist" style="text-align:center;">
           </div>
 
 
@@ -395,71 +413,264 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     });
   </script>
 
+  
   <script>
 
-    /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+var data=[['Lite','CA',16,0],
+['Small','CA',1278,4],
+['Medium','CA',27,0],
+['Plus','CA',58,0],
+['Grand','CA',1551,15],
+['Elite','CA',141,0],
+['Lite','AZ',5453,35],
+['Small','AZ',683,1],
+['Medium','AZ',862,0],
+['Grand','AZ',6228,30],
+['Lite','AL',15001,449],
+['Small','AL',527,3],
+['Medium','AL',836,0],
+['Plus','AL',28648,1419],
+['Grand','AL',3,0],
+['Lite','CO',13,0],
+['Small','CO',396,0],
+['Medium','CO',362,0],
+['Plus','CO',78,10],
+['Grand','CO',2473,32],
+['Elite','CO',2063,64],
+['Medium','DE',203,0],
+['Grand','DE',686,2],
+['Elite','DE',826,0],
+['Lite','KS',1738,110],
+['Small','KS',12925,13],
+['Medium','KS',15413,0],
+['Small','GA',2166,2],
+['Medium','GA',86,0],
+['Plus','GA',348,3],
+['Grand','GA',4244,18],
+['Elite','GA',1536,1],
+['Small','IA',351,0],
+['Grand','IA',405,1],
+['Small','IL',914,1],
+['Medium','IL',127,0],
+['Grand','IL',1470,7],
+['Elite','IL',516,1],
+['Lite','IN',43,0],
+['Small','IN',667,1],
+['Medium','IN',172,0],
+['Plus','IN',149,1],
+['Grand','IN',1380,5],
+['Elite','IN',791,23],
+['Small','FL',1,0],
+['Grand','FL',1,0],
+['Small','MD',1070,1],
+['Grand','MD',1171,2],
+['Elite','MD',33,0],
+['Plus','TX',1,0],
+['Small','MS',407,0],
+['Medium','MS',3,0],
+['Grand','MS',457,2],
+['Elite','MS',20,0],
+['Small','NC',557,0],
+['Medium','NC',167,0],
+['Plus','NC',95,1],
+['Grand','NC',1090,5],
+['Elite','NC',676,6],
+['Lite','NM',1195,99],
+['Small','NM',350,3],
+['Medium','NM',212,0],
+['Grand','NM',1509,8],
+['Lite','NV',3899,389],
+['Small','NV',147,0],
+['Medium','NV',455,0],
+['Plus','NV',1,1],
+['Grand','NV',4100,16],
+['Lite','OH',12,0],
+['Small','OH',634,2],
+['Medium','OH',749,0],
+['Plus','OH',119,1],
+['Grand','OH',3705,19],
+['Elite','OH',3456,25],
+['Small','PA',828,2],
+['Medium','PA',288,0],
+['Plus','PA',141,0],
+['Grand','PA',2625,7],
+['Elite','PA',1920,10],
+['Small','SC',1146,2],
+['Medium','SC',212,0],
+['Plus','SC',223,4],
+['Grand','SC',1803,6],
+['Elite','SC',761,8],
+['Small','TN',527,0],
+['Medium','TN',90,0],
+['Grand','TN',930,4],
+['Elite','TN',395,1],
+['Lite','ME',7232,58],
+['Small','ME',1272,0],
+['Medium','ME',1896,0],
+['Plus','ME',1,0],
+['Grand','ME',10782,33],
+['Elite','ME',1911,3],
+['Small','VA',495,0],
+['Medium','VA',32,0],
+['Plus','VA',7,0],
+['Grand','VA',1557,12],
+['Elite','VA',24,0],
+['Small','WA',460,1],
+['Plus','WA',88,3],
+['Grand','WA',956,3],
+['Small','WV',232,0],
+['Medium','WV',71,0],
+['Grand','WV',575,2],
+['Elite','WV',368,3]
+];
+var color ={Elite:"#3366CC", Grand:"#DC3912",  Lite:"#FF9900", Medium:"#109618", Plus:"#990099", Small:"#0099C6"};
+var svg = d3.select("#assists").append("svg").attr("width", 960).attr("height", 800);
 
-      ////////////////////////////////////////////////////////////// 
-      //////////////////////// Set-Up ////////////////////////////// 
-      ////////////////////////////////////////////////////////////// 
+svg.append("text").attr("x",250).attr("y",70)
+  .attr("class","header").text("Sales Attempt");
+  
+svg.append("text").attr("x",750).attr("y",70)
+  .attr("class","header").text("Sales");
 
-      var margin = {top: 100, right: 100, bottom: 100, left: 100},
-      width = Math.min(5000, window.innerWidth - 10) - margin.left - margin.right,
-      height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+var g =[svg.append("g").attr("transform","translate(150,100)")
+    ,svg.append("g").attr("transform","translate(650,100)")];
 
-      ////////////////////////////////////////////////////////////// 
-      ////////////////////////// Data ////////////////////////////// 
-      ////////////////////////////////////////////////////////////// 
+var bp=[ viz.bP()
+    .data(data)
+    .min(12)
+    .pad(1)
+    .height(600)
+    .width(200)
+    .barSize(35)
+    .fill(d=>color[d.primary])    
+  ,viz.bP()
+    .data(data)
+    .value(d=>d[3])
+    .min(12)
+    .pad(1)
+    .height(600)
+    .width(200)
+    .barSize(35)
+    .fill(d=>color[d.primary])
+];
+    
+[0,1].forEach(function(i){
+  g[i].call(bp[i])
+  
+  g[i].append("text").attr("x",-50).attr("y",-8).style("text-anchor","middle").text("Channel");
+  g[i].append("text").attr("x", 250).attr("y",-8).style("text-anchor","middle").text("State");
+  
+  g[i].append("line").attr("x1",-100).attr("x2",0);
+  g[i].append("line").attr("x1",200).attr("x2",300);
+  
+  g[i].append("line").attr("y1",610).attr("y2",610).attr("x1",-100).attr("x2",0);
+  g[i].append("line").attr("y1",610).attr("y2",610).attr("x1",200).attr("x2",300);
+  
+  g[i].selectAll(".mainBars")
+    .on("mouseover",mouseover)
+    .on("mouseout",mouseout);
 
-      var data = [
-            [//iPhone
-            {axis:"Battery Life",value:0.22},
-            {axis:"Brand",value:0.28},
-            {axis:"Contract Cost",value:0.29},
-            {axis:"Design And Quality",value:0.17},
-            {axis:"Have Internet Connectivity",value:0.22},
-            {axis:"Large Screen",value:0.02},
-            {axis:"Price Of Device",value:0.21},
-            {axis:"To Be A Smartphone",value:0.50}      
-            ],[//Samsung
-            {axis:"Battery Life",value:0.27},
-            {axis:"Brand",value:0.16},
-            {axis:"Contract Cost",value:0.35},
-            {axis:"Design And Quality",value:0.13},
-            {axis:"Have Internet Connectivity",value:0.20},
-            {axis:"Large Screen",value:0.13},
-            {axis:"Price Of Device",value:0.35},
-            {axis:"To Be A Smartphone",value:0.38}
-            ],[//Nokia Smartphone
-            {axis:"Battery Life",value:0.26},
-            {axis:"Brand",value:0.10},
-            {axis:"Contract Cost",value:0.30},
-            {axis:"Design And Quality",value:0.14},
-            {axis:"Have Internet Connectivity",value:0.22},
-            {axis:"Large Screen",value:0.04},
-            {axis:"Price Of Device",value:0.41},
-            {axis:"To Be A Smartphone",value:0.30}
-            ]
-            ];
-      ////////////////////////////////////////////////////////////// 
-      //////////////////// Draw the Chart ////////////////////////// 
-      ////////////////////////////////////////////////////////////// 
+  g[i].selectAll(".mainBars").append("text").attr("class","label")
+    .attr("x",d=>(d.part=="primary"? -30: 30))
+    .attr("y",d=>+6)
+    .text(d=>d.key)
+    .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+  
+  g[i].selectAll(".mainBars").append("text").attr("class","perc")
+    .attr("x",d=>(d.part=="primary"? -100: 80))
+    .attr("y",d=>+6)
+    .text(function(d){ return d3.format("0.0%")(d.percent)})
+    .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+});
 
-      var color = d3.scale.ordinal()
-      .range(["#EDC951","#CC333F","#00A0B0"]);
+function mouseover(d){
+  [0,1].forEach(function(i){
+    bp[i].mouseover(d);
+    
+    g[i].selectAll(".mainBars").select(".perc")
+    .text(function(d){ return d3.format("0.0%")(d.percent)});
+  });
+}
+function mouseout(d){
+  [0,1].forEach(function(i){
+    bp[i].mouseout(d);
+    
+    g[i].selectAll(".mainBars").select(".perc")
+    .text(function(d){ return d3.format("0.0%")(d.percent)});
+  });
+}
+d3.select(self.frameElement).style("height", "800px");
+</script>
 
-      var radarChartOptions = {
-        w: width,
-        h: height,
-        margin: margin,
-        maxValue: 0.5,
-        levels: 5,
-        roundStrokes: true,
-        color: color
-      };
-      //Call function to draw the Radar chart
-      RadarChart(".radarChart", data, radarChartOptions);
-    </script>
+<script>
+var margin = {top: 80, right: 80, bottom: 80, left: 80},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+var y0 = d3.scale.linear().domain([300, 1100]).range([height, 0]),
+y1 = d3.scale.linear().domain([20, 80]).range([height, 0]);
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+// create left yAxis
+var yAxisLeft = d3.svg.axis().scale(y0).ticks(4).orient("left");
+// create right yAxis
+var yAxisRight = d3.svg.axis().scale(y1).ticks(6).orient("right");
+var svg = d3.select("hist").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("class", "graph")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+d3.tsv("data.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.year; }));
+  y0.domain([0, d3.max(data, function(d) { return d.money; })]);
+  
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+  svg.append("g")
+    .attr("class", "y axis axisLeft")
+    .attr("transform", "translate(0,0)")
+    .call(yAxisLeft)
+  .append("text")
+    .attr("y", 6)
+    .attr("dy", "-2em")
+    .style("text-anchor", "end")
+    .style("text-anchor", "end")
+    .text("Dollars");
+  
+  svg.append("g")
+    .attr("class", "y axis axisRight")
+    .attr("transform", "translate(" + (width) + ",0)")
+    .call(yAxisRight)
+  .append("text")
+    .attr("y", 6)
+    .attr("dy", "-2em")
+    .attr("dx", "2em")
+    .style("text-anchor", "end")
+    .text("#");
+  bars = svg.selectAll(".bar").data(data).enter();
+  bars.append("rect")
+      .attr("class", "bar1")
+      .attr("x", function(d) { return x(d.year); })
+      .attr("width", x.rangeBand()/2)
+      .attr("y", function(d) { return y0(d.money); })
+    .attr("height", function(d,i,j) { return height - y0(d.money); }); 
+  bars.append("rect")
+      .attr("class", "bar2")
+      .attr("x", function(d) { return x(d.year) + x.rangeBand()/2; })
+      .attr("width", x.rangeBand() / 2)
+      .attr("y", function(d) { return y1(d.number); })
+    .attr("height", function(d,i,j) { return height - y1(d.number); }); 
+});
+function type(d) {
+  d.money = +d.money;
+  return d;
+}
+</script>
 
 
     <script>
