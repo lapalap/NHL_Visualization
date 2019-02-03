@@ -31,12 +31,7 @@ line{
 <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
 <script>
 
-Promise.all([
-    d3.csv("../data/Players/8466139.csv"),
-    d3.csv("../data/Players/8470041.csv"),
-]).then(function(allData) {
-    console.log(d3.merge(allData));
-});
+
 
 var data=[['Lite','CA',16,0],
 ['Small','CA',1278,4],

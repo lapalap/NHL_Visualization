@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>NHL Vizualization</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -59,9 +59,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     margin-right: auto;
     border: 1px solid #000000;}
     .bar_image {visibility: hidden;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     .chart {
       margin: 10px;
@@ -112,12 +112,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       font-size:16px;
     }
     .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-  .bar { fill: steelblue; }
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    .bar { fill: steelblue; }
     line{
       stroke:grey;
     }
@@ -133,13 +133,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <script src="js/selectize.js"></script>
     <script src="js/radarChart.js"></script> 
     <script src="js/index.js"></script>
-<!--     <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <!--     <script src="https://d3js.org/d3.v4.min.js"></script> -->
     <link rel="stylesheet" href="css/normalize.css">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
     <script type="text/javascript" src="js/promise-polyfill.js"></script>
     <script type="text/javascript" src="js/fetch.umd.js"></script>
-<!--     <script type="text/javascript" src="js/d3.js"></script> -->
+    <!--     <script type="text/javascript" src="js/d3.js"></script> -->
     <script type="text/javascript" src="js/crossfilter.js"></script>
     <script type="text/javascript" src="js/dc.js"></script>
 
@@ -156,7 +156,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         <h3 class="w3-wide"><b>NHL visualization</b></h3>
       </div>
       <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-        <a href="#" class="w3-bar-item w3-button">Teams summary</a>
+        <a href="../USA%20and%20Canada%20Map/Map_in_CSS_with_line_graph.html" class="w3-bar-item w3-button">Teams summary</a>
         <a href="#" class="w3-bar-item w3-button">Player stats</a>
       </nav>
 
@@ -222,7 +222,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
               <img id ="left_profile_photo" class="profile_photo_left" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
               <p id="name_left_column" class="w3-large" style="color: black;"></p>
               <div id = "description_left" style="text-align:center;"></div>
-               <p id="scatter_text1" class="w3-large" style="color: black;"></p>
+              <p id="scatter_text1" class="w3-large" style="color: black;"></p>
               <div id = "field_left" style="text-align:center;"></div>
             </div>
             <div class="column" id="column_right" style="text-align:center;">
@@ -236,114 +236,115 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           <p id="dist_text" class="w3-large" style="color: black;"></p>
           <div class = "row" id = "row2">
             <div class="column" id="column_left2" style="text-align:center;">
-                <img id ="left_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
+              <img id ="left_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
             </div>
             <div class="column" id="column_right2" style="text-align:center;">
-                <img id ="right_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
+              <img id ="right_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
             </div>
 
-            </div>
+          </div>
 
 
-            <script>
-              var season = $('#select-season').selectize({
-                create: true,
-                dropdownParent: 'body'
-              });
+          <script>
+            var season = $('#select-season').selectize({
+              create: true,
+              dropdownParent: 'body'
+            });
 
-              console.log(season.value);
+            console.log(season.value);
 
 
 
-              var selection = $('#select-player').selectize({
-                maxItems: 2,
-                delimiter: ',',
-                onChange: function(value) {
+            var selection = $('#select-player').selectize({
+              maxItems: 2,
+              delimiter: ',',
+              onChange: function(value) {
              // alert(value);
 
-             var dict = {8471214 : 'Alex Ovechkin',
-             8471675 : 'Sidney Crosby',
-             8474141 : 'Patrick Kane',
-             8470794 : 'Joe Pavelski',
-             8475765 : 'Vladimir Tarasenko',
-             8475166 : 'John Tavares',
-             8475794 : 'Tyler Seguin',
-             8473994 : 'Jamie Benn',
-             8471215 : 'Evgeni Malkin',
-             8470621 : 'Corey Perry',
-             8473419 : 'Brad Marchand',
-             8473604 : 'Jonathan Toews',
-             8474564 : 'Steven Stamkos',
-             8473548 : 'Phil Kessel',
-             8474053 : 'Logan Couture',
-             8474157 : 'Max Pacioretty',
-             8476453 : 'Nikita Kucherov',
-             8471707 : 'James Neal',
-             8470604 : 'Jeff Carter',
-             8466139 : 'Patrick Marleau',
-             8470638 : 'Patrice Bergeron',
-             8470041 : 'Rick Nash',
-             8471698 : 'T.J. Oshie',
-             8474190 : 'Wayne Simmonds',
-             8470610 : 'Zach Parise',
-             8474037 : 'James van Riemsdyk',
-             8471218 : 'Blake Wheeler',
-             8471685 : 'Anze Kopitar',
-             8475168 : 'Matt Duchene',
-             8475784 : 'Jeff Skinner'};
+             var dict = {
+               8471214 : 'Alex Ovechkin',
+               8471675 : 'Sidney Crosby',
+               8474141 : 'Patrick Kane',
+               8470794 : 'Joe Pavelski',
+               8475765 : 'Vladimir Tarasenko',
+               8475166 : 'John Tavares',
+               8475794 : 'Tyler Seguin',
+               8473994 : 'Jamie Benn',
+               8471215 : 'Evgeni Malkin',
+               8470621 : 'Corey Perry',
+               8473419 : 'Brad Marchand',
+               8473604 : 'Jonathan Toews',
+               8474564 : 'Steven Stamkos',
+               8473548 : 'Phil Kessel',
+               8474053 : 'Logan Couture',
+               8474157 : 'Max Pacioretty',
+               8476453 : 'Nikita Kucherov',
+               8471707 : 'James Neal',
+               8470604 : 'Jeff Carter',
+               8466139 : 'Patrick Marleau',
+               8470638 : 'Patrice Bergeron',
+               8470041 : 'Rick Nash',
+               8471698 : 'T.J. Oshie',
+               8474190 : 'Wayne Simmonds',
+               8470610 : 'Zach Parise',
+               8474037 : 'James van Riemsdyk',
+               8471218 : 'Blake Wheeler',
+               8471685 : 'Anze Kopitar',
+               8475168 : 'Matt Duchene',
+               8475784 : 'Jeff Skinner'};
 
-             if (value[1] != null) {
+               if (value[1] != null) {
 
-               document.getElementById('name_left_column').innerHTML = dict[value[0]];
-               document.getElementById('name_right_column').innerHTML = dict[value[1]];
+                 document.getElementById('name_left_column').innerHTML = dict[value[0]];
+                 document.getElementById('name_right_column').innerHTML = dict[value[1]];
 
-               document.getElementById('scatter_text1').innerHTML = "Scatterplot of position of goals";
-               document.getElementById('scatter_text2').innerHTML = "Scatterplot of position of goals";
-               document.getElementById('dist_text').innerHTML = "Distribution of distances of goals";
+                 document.getElementById('scatter_text1').innerHTML = "Scatterplot of position of goals";
+                 document.getElementById('scatter_text2').innerHTML = "Scatterplot of position of goals";
+                 document.getElementById('dist_text').innerHTML = "Distribution of distances of goals";
 
-               d3.select("svg").remove();
-               d3.select("svg").remove();
+                 d3.select("svg").remove();
+                 d3.select("svg").remove();
 
-               var imgReplace_left = document.getElementById("left_profile_photo");
-               imgReplace_left.src = "../data/Players/Images/"+value[0]+".jpg";
-               imgReplace_left.style.visibility = "visible";
-               imgReplace_left.style.borderRadius = '50%';
+                 var imgReplace_left = document.getElementById("left_profile_photo");
+                 imgReplace_left.src = "../data/Players/Images/"+value[0]+".jpg";
+                 imgReplace_left.style.visibility = "visible";
+                 imgReplace_left.style.borderRadius = '50%';
 
-               var imgReplace_right = document.getElementById("right_profile_photo");
-               imgReplace_right.src = "../data/Players/Images/"+value[1]+".jpg";
-               imgReplace_right.style.visibility = "visible";
-               imgReplace_right.style.borderRadius = '50%';
+                 var imgReplace_right = document.getElementById("right_profile_photo");
+                 imgReplace_right.src = "../data/Players/Images/"+value[1]+".jpg";
+                 imgReplace_right.style.visibility = "visible";
+                 imgReplace_right.style.borderRadius = '50%';
 
-               var imgReplace_bar_left = document.getElementById("left_bar");
-               imgReplace_bar_left.src = "../data/Bars/"+value[0]+".png";
-               imgReplace_bar_left.style.visibility = "visible";
+                 var imgReplace_bar_left = document.getElementById("left_bar");
+                 imgReplace_bar_left.src = "../data/Bars/"+value[0]+".png";
+                 imgReplace_bar_left.style.visibility = "visible";
 
-               var imgReplace_bar_right = document.getElementById("right_bar");
-               imgReplace_bar_right.src = "../data/Bars/"+value[1]+".png";
-               imgReplace_bar_right.style.visibility = "visible";
+                 var imgReplace_bar_right = document.getElementById("right_bar");
+                 imgReplace_bar_right.src = "../data/Bars/"+value[1]+".png";
+                 imgReplace_bar_right.style.visibility = "visible";
 
-               var width = document.getElementById('column_left').offsetWidth*0.7;
+                 var width = document.getElementById('column_left').offsetWidth*0.7;
 
 
-               var chart = function(svg){
-                var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: width, horizontal: false});
-                fullHorzPlot();
-                svg_left.attr("w3-container", "chart");
-                return svg.node();
-              }
+                 var chart = function(svg){
+                  var fullHorzPlot = new RINK_MAP({parent: svg, fullRink: false, desiredWidth: width, horizontal: false});
+                  fullHorzPlot();
+                  svg_left.attr("w3-container", "chart");
+                  return svg.node();
+                }
 
-              if (svg_left == null){
-               var svg_left = d3.select("#field_left").append("svg")
-               .attr("width", width)
-               .attr("height", width*1.25);
+                if (svg_left == null){
+                 var svg_left = d3.select("#field_left").append("svg")
+                 .attr("width", width)
+                 .attr("height", width*1.25);
 
-               var svg_right = d3.select("#field_right").append("svg")
-               .attr("width", width)
-               .attr("height", width*1.25);
+                 var svg_right = d3.select("#field_right").append("svg")
+                 .attr("width", width)
+                 .attr("height", width*1.25);
 
-               chart(svg_left);
-               chart(svg_right);
-             }
+                 chart(svg_left);
+                 chart(svg_right);
+               }
               // setup x 
               var xValue = function(d) { return d.st_y;}, // data -> value
                   xScale = d3.scale.linear().range([0, width]), // value -> display
@@ -501,7 +502,7 @@ d3.csv("../data/Bars/8471214.csv", function(error, data) {
 
 
 
-  <script>
+<script>
 
 // Accordion 
 function myAccFunc() {
