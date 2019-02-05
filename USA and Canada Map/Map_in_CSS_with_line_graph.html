@@ -134,12 +134,17 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	    stroke: #ccc;
 	    stroke-width: 2px;
 	  }
-    .axis path,
-    .axis line {
+    .axis path
+     {
       fill: none;
       stroke: #000;
       shape-rendering: crispEdges;
     }
+    .axis line{
+      fill: none;
+			stroke: #000;
+    }
+
     .dot {
       stroke: #000;
     }
@@ -178,7 +183,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     </div>
     <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
       <a href="#" class="w3-bar-item w3-button">Teams summary</a>
-      <a href="../Scatterplot/Players_comparison.html" class="w3-bar-item w3-button">Player stats</a>
+      <a href="#" class="w3-bar-item w3-button">Player stats</a>
     </nav>
 
     <!-- Top menu on small screens -->
@@ -281,12 +286,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
                 </div>
                 <div class= "row">
                     <div class= column style="width:50%" style = "float:left">
-                        <div id = "lines_comparison"></div>
+                        <div class="comparison_table">
+                          <h4 class = "comparison_header" style = "font-weight: 800">Head-to-Head comparison for all seasons</h4>
+                      </div>
                     </div>
                     <div class= column style="width:50%" style = "float:left"> 
-                        <div class="comparison_table">
-                            <h4 class = "comparison_header" style = "font-weight: 800">Head-to-Head comparison for all seasons</h4>
-                        </div>
+                      <div id = "lines_comparison"></div>
                     </div>
                 </div>
         <script>
@@ -917,7 +922,7 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
       .attr("class", "line")
       .attr("data-legend",main_team_name[0].team)
       .style("stroke", "#5ab4ac")
-      .style("stroke-width", "8")
+      .style("stroke-width", "24")
       .style("position", "relative")
       .style("fill","none")
       .attr("d", valueline);
@@ -928,7 +933,7 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
       .attr("class", "line")
       .attr("data-legend",second_team_name[0].team)
       .style("stroke", "#d8b365")
-      .style("stroke-width", "8")
+      .style("stroke-width", "24")
       .style("position", "relative")
       .style("fill","none")
       .attr("d", valueline2);
@@ -937,7 +942,12 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
   svgLineGraph.append("g")
       .attr("transform", "translate(0," + 4*height + ")")
       .call(xAxis)
-      .style("font","48px sans-serif")
+      .style("font","64px sans-serif")
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .attr("y", -80)
+      .attr("x", -150)
+      .style("text-anchor", "end")
       .append("text")
       .attr("class", "label")
       .attr("x", width-100)
@@ -949,7 +959,7 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
   svgLineGraph.append("g")
       .attr("transform", "translate(-" + 600 + ",0)")
       .call(yAxis)
-      .style("font","48px sans-serif")
+      .style("font","64px sans-serif")
       .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
@@ -959,6 +969,49 @@ function draw_line_comparison(main_team_chosen, d, headTohead, headTohead_stats,
       .style("text-anchor", "end")
       .text(text_for_xAxis);
 
+var legend = svgLineGraph.append("g")
+    .attr("class", "legend")
+    .attr("transform", "translate("+(parseFloat(width)-190)+","+parseFloat(4*height-400)+")");
+
+var titleAttributes = {
+    "fill": "#636363",
+    "text-anchor": "end",
+    "font-size": "80px"
+}
+
+var legendAttributes = {
+    "x": -5,
+    "text-anchor": "end",
+}
+
+legend.append("text")
+    .text("Seasonal change of statistic")
+    .attr(titleAttributes)
+
+legend.append("text")
+    .text(main_team_name[0].team)
+    .attr(legendAttributes)
+    .attr({
+        "y": "2.5em",
+        "fill": "#5ab4ac",
+        "font-size": "80px"
+    })
+    .attr("font-weight","600")
+
+legend.append("text")
+    .text(second_team_name[0].team)
+    .attr(legendAttributes)
+    .attr({
+        "y": "3.5em",
+        "fill": "#d8b365",
+        "font-size": "80px"
+    })
+    .attr("font-weight","600")
+
+// svgLineGraph.append("text")
+//     .text("K-M Survival Curve")
+//     .attr(titleAttributes)
+//     .attr("transform", "translate(0,3000)")
     // legend = svgLineGraph.append("g")
     // .attr("class","legend")
     // .attr("transform","translate(50,30)")
