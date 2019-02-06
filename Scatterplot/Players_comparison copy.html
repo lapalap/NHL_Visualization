@@ -140,41 +140,41 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       text-anchor: end
     }
     .box {
-      font: 10px sans-serif;
-    }
-    .box line,
-    .box rect,
-    .box circle {
-      fill: steelblue;
-      stroke: #000;
-      stroke-width: 1px;
-    }
+  font: 10px sans-serif;
+}
+.box line,
+.box rect,
+.box circle {
+  fill: steelblue;
+  stroke: #000;
+  stroke-width: 1px;
+}
 
-    .box .center {
-      stroke-dasharray: 3,3;
-    }
+.box .center {
+  stroke-dasharray: 3,3;
+}
 
-    .box .outlier {
-      fill: none;
-      stroke: #000;
-    }
+.box .outlier {
+  fill: none;
+  stroke: #000;
+}
 
-    .axis {
-      font: 12px sans-serif;
-    }
-
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
-
-    .x.axis path { 
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
+.axis {
+  font: 12px sans-serif;
+}
+ 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+ 
+.x.axis path { 
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
     line{
       stroke:grey;
     }
@@ -516,116 +516,116 @@ function boxQuartiles(d) {
 };
 
 
-</script>
+    </script>
 
-<!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
-</head>
-<body class="w3-content" style="max-width:1500px">
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <!--   <div class="chart" id="full-rink-horz"></div> -->
+    <!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
+  </head>
+  <body class="w3-content" style="max-width:1500px">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <!--   <div class="chart" id="full-rink-horz"></div> -->
 
-  <!-- Sidebar/menu -->
-  <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
-    <div class="w3-container w3-display-container w3-padding-16">
-      <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-      <h3 class="w3-wide"><b>NHL visualization</b></h3>
-    </div>
-    <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-      <a href="../USA%20and%20Canada%20Map/Map_in_CSS_with_line_graph.html" class="w3-bar-item w3-button">Teams summary</a>
-      <a href="#" class="w3-bar-item w3-button">Player stats</a>
-    </nav>
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+      <div class="w3-container w3-display-container w3-padding-16">
+        <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+        <h3 class="w3-wide"><b>NHL visualization</b></h3>
+      </div>
+      <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+        <a href="../USA%20and%20Canada%20Map/Map_in_CSS_with_line_graph.html" class="w3-bar-item w3-button">Teams summary</a>
+        <a href="#" class="w3-bar-item w3-button">Player stats</a>
+      </nav>
 
-    <!-- Top menu on small screens -->
-    <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-      <div class="w3-bar-item w3-padding-24 w3-wide">NHL visualization</div>
-      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    </header>
-
-    <!-- Overlay effect when opening sidebar on small screens -->
-    <!-- <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div> -->
-
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" id = "main" style="margin-left:250px">
-
-      <!-- Push down content on small screens -->
-      <div class="w3-hide-large" style="margin-top:83px"></div>
-
-      <!-- Top header -->
-      <header class="w3-container w3-xlarge">
-        <p class="w3-left" style="font-size:160%;">Players side-by-side comparison</p>
+      <!-- Top menu on small screens -->
+      <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+        <div class="w3-bar-item w3-padding-24 w3-wide">NHL visualization</div>
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
       </header>
-      <div  class="w3-display-container w3-container" id = "general">
-        <div class="control-group" style="margin-top:30px">
-          <label for="select-player" style="text-align:center;">Players:</label>
-          <select id="select-player" name="player[]" multiple class="demo-default" style="width:50%" placeholder="Select a player..." style="text-align:center;">
-            <option value="">Select a player...</option>
-            <option value=8471214>Alex Ovechkin</option>
-            <option value=8471675>Sidney Crosby</option>
-            <option value=8474141>Patrick Kane</option>
-            <option value=8470794>Joe Pavelski</option>
-            <option value=8475765>Vladimir Tarasenko</option>
-            <option value=8475166>John Tavares</option>
-            <option value=8475794>Tyler Seguin</option>
-            <option value=8473994>Jamie Benn</option>
-            <option value=8471215>Evgeni Malkin</option>
-            <option value=8470621>Corey Perry</option>
-            <option value=8473419>Brad Marchand</option>
-            <option value=8473604>Jonathan Toews</option>
-            <option value=8474564>Steven Stamkos</option>
-            <option value=8473548>Phil Kessel</option>
-            <option value=8474053>Logan Couture</option>
-            <option value=8474157>Max Pacioretty</option>
-            <option value=8476453>Nikita Kucherov</option>
-            <option value=8471707>James Neal</option>
-            <option value=8470604>Jeff Carter</option>
-            <option value=8466139>Patrick Marleau</option>
-            <option value=8470638>Patrice Bergeron</option>
-            <option value=8470041>Rick Nash</option>
-            <option value=8471698>T.J. Oshie</option>
-            <option value=8474190>Wayne Simmonds</option>
-            <option value=8470610>Zach Parise</option>
-            <option value=8474037>James van Riemsdyk</option>
-            <option value=8471218>Blake Wheeler</option>
-            <option value=8471685>Anze Kopitar</option>
-            <option value=8475168>Matt Duchene</option>
-            <option value=8475784>Jeff Skinner</option>
-          </select>
-        </div>
 
-        <div class="row" id="row">
-          <div class="column" id="column_left" style="text-align:center;">
-            <img id ="left_profile_photo" class="profile_photo_left" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
-            <p id="name_left_column" class="w3-large" style="color: black;"></p>
-            <div id = "description_left" style="text-align:center;"></div>
-            <p id="scatter_text1" class="w3-large" style="color: black;"></p>
-            <div id = "field_left" style="text-align:center;"></div>
-          </div>
-          <div class="column" id="column_right" style="text-align:center;">
-            <img id ="right_profile_photo" class="profile_photo_right" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
-            <p id="name_right_column" class="w3-large" style="color: black;"></p>
-            <div id = "description_right" style="text-align:center;"></div>
-            <p id="scatter_text2" class="w3-large" style="color: black;"></p>
-            <div id = "field_right" style="text-align:center;"></div>
-          </div>
-        </div>
-        <div class = "row" id = "row2">
-          <div class="column" id="column_left2" style="text-align:center;">
-            <p id="dist_text" class="w3-large" style="color: black;"></p>
-            <img id ="left_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
-          </div>
-          <div class="column" id="column_right2" style="text-align:center;">
-            <p id="boxplot_text" class="w3-large" style="color: black;"></p>
+      <!-- Overlay effect when opening sidebar on small screens -->
+      <!-- <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div> -->
 
+      <!-- !PAGE CONTENT! -->
+      <div class="w3-main" id = "main" style="margin-left:250px">
+
+        <!-- Push down content on small screens -->
+        <div class="w3-hide-large" style="margin-top:83px"></div>
+
+        <!-- Top header -->
+        <header class="w3-container w3-xlarge">
+          <p class="w3-left" style="font-size:160%;">Players side-by-side comparison</p>
+        </header>
+        <div  class="w3-display-container w3-container" id = "general">
+          <div class="control-group" style="margin-top:30px">
+            <label for="select-player" style="text-align:center;">Players:</label>
+            <select id="select-player" name="player[]" multiple class="demo-default" style="width:50%" placeholder="Select a player..." style="text-align:center;">
+              <option value="">Select a player...</option>
+              <option value=8471214>Alex Ovechkin</option>
+              <option value=8471675>Sidney Crosby</option>
+              <option value=8474141>Patrick Kane</option>
+              <option value=8470794>Joe Pavelski</option>
+              <option value=8475765>Vladimir Tarasenko</option>
+              <option value=8475166>John Tavares</option>
+              <option value=8475794>Tyler Seguin</option>
+              <option value=8473994>Jamie Benn</option>
+              <option value=8471215>Evgeni Malkin</option>
+              <option value=8470621>Corey Perry</option>
+              <option value=8473419>Brad Marchand</option>
+              <option value=8473604>Jonathan Toews</option>
+              <option value=8474564>Steven Stamkos</option>
+              <option value=8473548>Phil Kessel</option>
+              <option value=8474053>Logan Couture</option>
+              <option value=8474157>Max Pacioretty</option>
+              <option value=8476453>Nikita Kucherov</option>
+              <option value=8471707>James Neal</option>
+              <option value=8470604>Jeff Carter</option>
+              <option value=8466139>Patrick Marleau</option>
+              <option value=8470638>Patrice Bergeron</option>
+              <option value=8470041>Rick Nash</option>
+              <option value=8471698>T.J. Oshie</option>
+              <option value=8474190>Wayne Simmonds</option>
+              <option value=8470610>Zach Parise</option>
+              <option value=8474037>James van Riemsdyk</option>
+              <option value=8471218>Blake Wheeler</option>
+              <option value=8471685>Anze Kopitar</option>
+              <option value=8475168>Matt Duchene</option>
+              <option value=8475784>Jeff Skinner</option>
+            </select>
           </div>
 
-        </div>
+          <div class="row" id="row">
+            <div class="column" id="column_left" style="text-align:center;">
+              <img id ="left_profile_photo" class="profile_photo_left" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
+              <p id="name_left_column" class="w3-large" style="color: black;"></p>
+              <div id = "description_left" style="text-align:center;"></div>
+              <p id="scatter_text1" class="w3-large" style="color: black;"></p>
+              <div id = "field_left" style="text-align:center;"></div>
+            </div>
+            <div class="column" id="column_right" style="text-align:center;">
+              <img id ="right_profile_photo" class="profile_photo_right" src="../data/Players/Images/8475784.jpg" width="150" style="text-align:center;">
+              <p id="name_right_column" class="w3-large" style="color: black;"></p>
+              <div id = "description_right" style="text-align:center;"></div>
+              <p id="scatter_text2" class="w3-large" style="color: black;"></p>
+              <div id = "field_right" style="text-align:center;"></div>
+            </div>
+          </div>
+          <div class = "row" id = "row2">
+            <div class="column" id="column_left2" style="text-align:center;">
+              <p id="dist_text" class="w3-large" style="color: black;"></p>
+              <img id ="left_bar" class="bar_image" src="../data/Bars/8475784.png" width="600" style="text-align:center;">
+            </div>
+            <div class="column" id="column_right2" style="text-align:center;">
+              <p id="boxplot_text" class="w3-large" style="color: black;"></p>
+
+            </div>
+
+          </div>
 
 
-        <script>
-          var selection = $('#select-player').selectize({
-            maxItems: 2,
-            delimiter: ',',
-            onChange: function(value) {
+          <script>
+            var selection = $('#select-player').selectize({
+              maxItems: 2,
+              delimiter: ',',
+              onChange: function(value) {
              // alert(value);
 
              var dict = {
@@ -712,151 +712,6 @@ function boxQuartiles(d) {
 
                  chart(svg_left);
                  chart(svg_right);
-
-                 var labels = true; // show the text labels beside individual boxplots?
-
-            var margin = {top: 30, right: 50, bottom: 70, left: 50};
-            var  width = 600 - margin.left - margin.right;
-            var height = 380 - margin.top - margin.bottom;
-
-            var min1 = Infinity,
-            max1 = -Infinity,
-            min2 = Infinity,
-            max2 = -Infinity;
-
-// parse in the data  
-d3.csv("../data/PlayerStats.csv", function(error, csv) {
-
-  var id1 = value[0],
-  id2 = value[1];
-
-  var player1 = csv.filter((x) => {return x.player_id == id1}),
-  player2 = csv.filter((x) => {return x.player_id == id2});
-
-
-  var data = [];
-  data[0] = [];
-  data[1] = [];
-  // add more rows if your csv file has more columns
-
-  // add here the header of the csv file
-  data[0][0] = dict[value[0]];
-  data[1][0] = dict[value[1]];
-  // add more rows if your csv file has more columns
-
-  data[0][1] = [];
-  data[1][1] = [];
-  
-  player1.forEach(function(x) {
-    var v1 = x.timeOnIce;
-    data[0][1].push(parseFloat(v1));
-
-    if (parseFloat(v1) > max1) max1 = v1;
-    if (parseFloat(v1) < min1) min1 = v1; 
-    console.log(max1);
-  });
-
-  player2.forEach(function(x) {
-    var v2 = x.timeOnIce;
-    data[1][1].push(parseFloat(v2));
-
-    if (parseFloat(v2) > max2) max2 = v2;
-    if (parseFloat(v2) < min2) min2 = v2;
-
-  });
-
-  var max = Math.max(max1,max2);
-  var min = Math.min(min1,min2);
-  console.log(max,min);
-
-  var chart = boxplot()
-  .whiskers(iqr(1.5))
-  .height(height) 
-  .domain([min, max])
-  .showLabels(labels);
-
-  var svg = d3.select("#column_right2").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .attr("class", "box")    
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
-  // the x-axis
-  var x = d3.scale.ordinal()     
-  .domain( data.map(function(d) { console.log(d); return d[0] } ) )     
-  .rangeRoundBands([0 , width], 0.7, 0.3);    
-
-  var xAxis = d3.svg.axis()
-  .scale(x)
-  .orient("bottom");
-
-  // the y-axis
-  var y = d3.scale.linear()
-  .domain([min, max])
-  .range([height + margin.top, 0 + margin.top]);
-  
-  var yAxis = d3.svg.axis()
-  .scale(y)
-  .orient("left");
-
-  // draw the boxplots  
-  svg.selectAll(".box")    
-  .data(data)
-  .enter().append("g")
-  .attr("transform", function(d) { return "translate(" +  x(d[0])  + "," + margin.top + ")"; } )
-  .call(chart.width(x.rangeBand())); 
-  
-
-  // add a title
-  svg.append("text")
-  .attr("x", (width / 2))             
-  .attr("y", 0 + (margin.top / 2))
-  .attr("text-anchor", "middle")  
-  .style("font-size", "18px");
-        //.style("text-decoration", "underline")  
-
-   // draw y axis
-   svg.append("g")
-   .attr("class", "y axis")
-   .call(yAxis)
-    .append("text") // and text1
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .style("font-size", "16px") 
-    .text("Time on Ice (sec)");    
-
-  // draw x axis  
-  svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + (height  + margin.top + 10) + ")")
-  .call(xAxis)
-    .append("text")             // text label for the x axis
-    .attr("x", (width / 2) )
-    .attr("y",  10 )
-    .attr("dy", ".71em")
-    .style("text-anchor", "middle")
-    .style("font-size", "16px") 
-    .text("Player"); 
-  });
-
-// Returns a function to compute the interquartile range.
-function iqr(k) {
-  return function(d, i) {
-    var q1 = d.quartiles[0],
-    q3 = d.quartiles[2],
-    iqr = (q3 - q1) * k,
-    i = -1,
-    j = d.length;
-    while (d[++i] < q1 - iqr);
-    while (d[--j] > q3 + iqr);
-    return [i, j];
-  };
-}
-
-
                }
               // setup x 
               var xValue = function(d) { return d.st_y;}, // data -> value
@@ -945,10 +800,153 @@ function iqr(k) {
                 .on("mo");
               });
 
+            var labels = true; // show the text labels beside individual boxplots?
 
-}
+var margin = {top: 30, right: 50, bottom: 70, left: 50};
+var  width = 600 - margin.left - margin.right;
+var height = 380 - margin.top - margin.bottom;
+  
+var min1 = Infinity,
+    max1 = -Infinity,
+    min2 = Infinity,
+    max2 = -Infinity;
+  
+// parse in the data  
+d3.csv("../data/PlayerStats.csv", function(error, csv) {
+
+  var id1 = value[0],
+      id2 = value[1];
+
+  var player1 = csv.filter((x) => {return x.player_id == id1}),
+      player2 = csv.filter((x) => {return x.player_id == id2});
+
+
+  var data = [];
+  data[0] = [];
+  data[1] = [];
+  // add more rows if your csv file has more columns
+
+  // add here the header of the csv file
+  data[0][0] = dict[value[0]];
+  data[1][0] = dict[value[1]];
+  // add more rows if your csv file has more columns
+
+  data[0][1] = [];
+  data[1][1] = [];
+  
+  player1.forEach(function(x) {
+    var v1 = x.timeOnIce;
+    data[0][1].push(parseFloat(v1));
+
+    if (parseFloat(v1) > max1) max1 = v1;
+    if (parseFloat(v1) < min1) min1 = v1; 
+    console.log(max1);
+  });
+
+    player2.forEach(function(x) {
+    var v2 = x.timeOnIce;
+    data[1][1].push(parseFloat(v2));
+
+    if (parseFloat(v2) > max2) max2 = v2;
+    if (parseFloat(v2) < min2) min2 = v2;
+
+  });
+
+  var max = Math.max(max1,max2);
+  var min = Math.min(min1,min2);
+  console.log(max,min);
+
+  var chart = boxplot()
+    .whiskers(iqr(1.5))
+    .height(height) 
+    .domain([min, max])
+    .showLabels(labels);
+
+  var svg = d3.select("#column_right2").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("class", "box")    
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  // the x-axis
+  var x = d3.scale.ordinal()     
+    .domain( data.map(function(d) { console.log(d); return d[0] } ) )     
+    .rangeRoundBands([0 , width], 0.7, 0.3);    
+
+  var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+  // the y-axis
+  var y = d3.scale.linear()
+    .domain([min, max])
+    .range([height + margin.top, 0 + margin.top]);
+  
+  var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+  // draw the boxplots  
+  svg.selectAll(".box")    
+      .data(data)
+    .enter().append("g")
+    .attr("transform", function(d) { return "translate(" +  x(d[0])  + "," + margin.top + ")"; } )
+      .call(chart.width(x.rangeBand())); 
+  
+        
+  // add a title
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 + (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "18px");
+        //.style("text-decoration", "underline")  
+ 
+   // draw y axis
+  svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+    .append("text") // and text1
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("font-size", "16px") 
+      .text("Time on Ice (sec)");    
+  
+  // draw x axis  
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (height  + margin.top + 10) + ")")
+      .call(xAxis)
+    .append("text")             // text label for the x axis
+        .attr("x", (width / 2) )
+        .attr("y",  10 )
+    .attr("dy", ".71em")
+        .style("text-anchor", "middle")
+    .style("font-size", "16px") 
+        .text("Player"); 
 });
-</script>
+
+// Returns a function to compute the interquartile range.
+function iqr(k) {
+  return function(d, i) {
+    var q1 = d.quartiles[0],
+        q3 = d.quartiles[2],
+        iqr = (q3 - q1) * k,
+        i = -1,
+        j = d.length;
+    while (d[++i] < q1 - iqr);
+    while (d[--j] > q3 + iqr);
+    return [i, j];
+  };
+}
+
+
+          }
+        });
+      </script>
 
 
 <<!-- script>
@@ -1098,7 +1096,7 @@ function iqr(k) {
 
 </script> -->
 
-<script>
+  <script>
 // Accordion 
 function myAccFunc() {
   var x = document.getElementById("demoAcc");
